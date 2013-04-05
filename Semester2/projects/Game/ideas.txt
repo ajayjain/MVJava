@@ -1,0 +1,7 @@
+Shooter + typing tutor
+Drop
+Hacking a network of nodes by solving math equations
+Making the biggest blob by consuming others (a la Osmos)
+Painting or coloring game - to refill paint bucket, solve problems
+Side scroller + arithmetic game
+Racing game - unlock powerups & boost score by solving problems

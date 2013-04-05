@@ -1,0 +1,3 @@
+Average:	47.149
+Maximum:	100
+Minumum:	1

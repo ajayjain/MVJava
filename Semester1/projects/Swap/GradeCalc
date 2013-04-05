@@ -1,0 +1,6 @@
+//int a1 = 29+23+97+25+22+95+100;
+		//int b1 = 30+25+100+30+25+100+100;
+		//System.out.println(a1);
+		//System.out.println(b1);
+		//System.out.println((double)a1/b1);
+		//System.out.println((double)(a1-95)/(b1-100));
