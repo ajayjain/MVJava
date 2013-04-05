@@ -4,22 +4,15 @@
 // This program provides an example of different layouts:
 // BorderLayout, FlowLayout, GridLayout, and CardLayout.
 
-// Topics:
-//	1. JFrame default is BorderLayout; JPanel default is FlowLayout
-//	2. Change FlowLayout to GridLayout
-//	3. How to setup CardLayout
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class GamePrep {
 	private ControlPanel controls;
-	private ColorPanel colors;
 	private ButtonPanel buttons;
 	private LeadTablePanel leadTable;
 	private JFrame frame;
-	private boolean launched = false;
 	
 	public static void main (String[] args) {
 		GamePrep gpa = new GamePrep();
@@ -33,16 +26,24 @@ public class GamePrep {
 		frame.setSize(480, 640);
 
 		// Create the colors panel and buttons panel
-		colors = new ColorPanel();
+		JPanel colorPicker = new JPanel();
+		colorPicker.setLayout(new BorderLayout());
+
+		JPanel colorPickerHeader = new JPanel();
+		colorPickerHeader.setLayout(null);
+		colorPickerHeader.add(new JLabel("Choose a colored card"));
+		colorPickerHeader.add(new JButton("Select"));
+
+		colorPicker.add(colorPickerHeader, BorderLayout.NORTH);
+
+		ColorPanel colors = new ColorPanel();
 		buttons = new ButtonPanel();
 		controls = new ControlPanel();
 		leadTable = new LeadTablePanel();
-		buttons.setBackground(Color.gray);
+		
 		
 		// add the JPanels to the frame
 		frame.getContentPane().add(controls, BorderLayout.NORTH);
-		frame.getContentPane().add(colors, BorderLayout.CENTER);
-		colors.setVisible(false);
 		frame.getContentPane().add(leadTable, BorderLayout.CENTER);
 		frame.getContentPane().add(buttons, BorderLayout.SOUTH);
 
@@ -67,36 +68,39 @@ public class GamePrep {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
+			frame.getContentPane().remove(colors);
+			frame.getContentPane().add(leadTable, BorderLayout.CENTER);
+			colors.setVisible(false);
+			leadTable.setVisible(true);
 			if (e.getActionCommand().equals("NEW GAME")) {
-				if (!launched) {
-					launched = true;
-					colors.setVisible(true);
+				// if (!launched) {
+					frame.getContentPane().remove(leadTable);
+					frame.getContentPane().add(colors, BorderLayout.CENTER);
 					leadTable.setVisible(false);
-				}
+					colors.setVisible(true);
+				// }
 			}
 			if (e.getActionCommand().equals("LEADERBOARD")) {
-				if (launched) {
-					launched = false;
-					colors.setVisible(false);
-					leadTable.setVisible(true);
-				}
+				// if (launched) {
+
+				// }
 			}
-			/*launch.setVisible(!launched);
-			nameField.setVisible(!launched);
-			quit.setVisible(launched);*/
 		}
 	}
 	
-	/*class LeadPanel extends JPanel {
-		public LeadPanel() {
-			setLayout(new GridLayout
-		}
-	}*/
-	
 	class LeadTablePanel extends JPanel {
+		private String[] columnNames = {"Username", "Date", "Score", "Color"};
+		private Object[][] data = {
+			{"Ajay", "4 April 2013", new Integer(1000), "Orange"},
+			{"Daniel", "3 April 2013", new Integer(10), "Blue"},
+			{"Alan", "4 April 2013", new Integer(10), "Red"}
+		};
+		
 		public LeadTablePanel() {
-			setLayout(new GridLayout(10,3));
-			add(new JLabel("Ajay"));
+			// setLayout(new GridLayout(10,3));
+			// add(new JLabel("Ajay"));
+			JTable table = new JTable(data, columnNames);
+			add(table);
 		}
 	}
 	
