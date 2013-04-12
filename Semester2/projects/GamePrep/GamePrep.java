@@ -1,8 +1,7 @@
 // Ajay Jain
 // 1 April 2013
 // GamePrep.java
-// This program provides an example of different layouts:
-// BorderLayout, FlowLayout, GridLayout, and CardLayout.
+// GamePrep demonstrates the usage of layouts and components. Users select games/programs to launch.
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,20 +11,21 @@ import javax.swing.event.*;
 import java.io.IOException;
 
 public class GamePrep {
-	private ControlPanel controls;
-	private ButtonPanel buttons;
-	private JFrame frame;
-	private GameRouter router;
-	private JSlider cardSlider;
+	private ControlPanel controls;	// Panel for starting a game at top of frame (FlowLayout)
+	private ButtonPanel buttons;	// Buttons for launching a game (GridLayout)
+	private JFrame frame;	// Game window
+	private GameRouter router;	// Main content, contains leaderboard and games (BorderLayout)
+	private JSlider cardSlider;	// Slider to switch cards
 	
 	public static void main (String[] args) {
 		GamePrep gpa = new GamePrep();
 		gpa.run();
 	}
 	
+	// Launch game
 	public void run() {
 		// Initialize and set up the JFrame
-		frame = new JFrame();
+		frame = new JFrame("GamePrep Program Launcher");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(640, 640);
 
@@ -52,7 +52,8 @@ public class GamePrep {
 		frame.setVisible(true);
 	}
 
-	class GameRouter extends JPanel {
+	// Main content, contains leaderboard and games, switches between gamess
+	private class GameRouter extends JPanel {
 		private LeadTablePanel leadTable;
 		private ColorPanel colors;
 		private Pacman pac;
@@ -80,8 +81,8 @@ public class GamePrep {
 
 				colors = new ColorPanel();
 				add(colors);
-
-				cardSlider = new JSlider(1, 3, 0);
+				
+				cardSlider = new JSlider(1, 3, 1);
 				cardSlider.setOrientation(JSlider.VERTICAL);
 				cardSlider.addChangeListener(colors);
 				add(cardSlider, BorderLayout.EAST);
@@ -112,6 +113,7 @@ public class GamePrep {
 		}
 	}
 	
+	// Panel for starting a game at top of frame (FlowLayout)
 	class ControlPanel extends JPanel implements ActionListener {
 		private JButton launch, lead;
 		private JTextField nameField;
@@ -128,6 +130,7 @@ public class GamePrep {
 			add(lead);
 		}
 		
+		// Tell router to do things
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals("NEW GAME"))
 				// Switch to first game - color picker
@@ -137,6 +140,7 @@ public class GamePrep {
 		}
 	}
 
+	// Buttons at the bottom of the JFrame for selecting programs
 	class ButtonPanel extends JPanel implements ActionListener {
 		private JButton[] gameButtons;
 		private String[] gameNames =
@@ -159,25 +163,30 @@ public class GamePrep {
 		}
 	}
 
-	///////////
-	// GAMES //
-	///////////
-	
 	// Panel containing table of scores
 	class LeadTablePanel extends JPanel {
-		private String[] columnNames = {"Username", "Date", "Score", "Color"};
+		private String[] columnNames = {"Username", "Date", "Score", "Color"}; 
 		private Object[][] data = {
 			{"Ajay", "4 April 2013", new Integer(1000), "Orange"},
 			{"Daniel", "3 April 2013", new Integer(10), "Blue"},
-			{"Alan", "4 April 2013", new Integer(10), "Red"}
+			{"Alan", "4 April 2013", new Integer(10), "Red"},
+			{"Ding", "9 April 2013", new Integer(50), "(Earl) Grey"},
+			{"Steppphhheen", "9 April 2013", new Integer(50), "Yellow"}
 		};
 		
 		public LeadTablePanel() {
+			setBackground(Color.lightGray);
+			
+			// Use null layout
+			setLayout(null);
 			JTable table = new JTable(data, columnNames);
+			table.setBounds(112,50,400,80);
+			
 			add(table);
 		}
 	}
-
+	
+	// Color picker
 	class ColorPanel extends JPanel implements MouseListener, ChangeListener {
 		// Declare CardLayout and JPanel objects
 		private CardLayout cards;
@@ -207,15 +216,20 @@ public class GamePrep {
 			add(color2, "Panel 2");
 			add(color3, "Panel 3");
 		}
+		
+		// Select the next panel on the stack of panels
 		public void mousePressed(MouseEvent evt) {
-			////////////////////////////////////////////////////////
-			// Select the next panel on the stack of panels
 			cards.next(this);
-			cardSlider.setValue((cardSlider.getValue() + 1) % 3);
+			int newVal = cardSlider.getValue() + 1;
+			cardSlider.setValue(newVal < 4 ? newVal : 1);
 		}
+		
+		// Select the correct panel on the stack of panels
 		public void stateChanged(ChangeEvent e) {
 			cards.show(this, "Panel "+cardSlider.getValue());
 		}
+		
+		// Other mouse methods
 		public void mouseEntered(MouseEvent evt) { }
 		public void mouseExited(MouseEvent evt) { }
 		public void mouseClicked(MouseEvent evt) { }
