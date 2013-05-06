@@ -7,14 +7,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+<<<<<<< HEAD
 import java.io.*;
 import javax.imageio.ImageIO;
 
+=======
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 public class SlimeRun {
 	private JFrame frame;
 	private StartScreen startPanel;
 	private GamePanel gamePanel;
 	
+<<<<<<< HEAD
+=======
+	//public SlimeRun() {}
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 	public static void main(String[] args) {
 		(new SlimeRun()).init();
 	}
@@ -23,8 +30,12 @@ public class SlimeRun {
 	public void init() {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+<<<<<<< HEAD
 		frame.setSize(32*15, 32*6);
 		frame.setLocation(200, 100);
+=======
+		frame.setSize(600, 400);
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		frame.setResizable(false);
 		
 		startPanel = new StartScreen();
@@ -42,10 +53,15 @@ public class SlimeRun {
 	// Launch actual game
 	private void run() {
 		gamePanel = new GamePanel();
+<<<<<<< HEAD
+=======
+		gamePanel.createTopBar();
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		frame.getContentPane().add(gamePanel);
 	}
 	
 	class GamePanel extends JPanel {	
+<<<<<<< HEAD
 		private MainPanel main;
 		private JPanel top;
 		private JButton quit, help;
@@ -58,15 +74,24 @@ public class SlimeRun {
 			
 			main = new MainPanel();
 			add(main, BorderLayout.CENTER);
+=======
+		public GamePanel() {
+			setLayout(new BorderLayout());
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		}
 		
 		public void createTopBar() {
 			// Button to go to main screen
+<<<<<<< HEAD
 			quit = new JButton("Quit");
+=======
+			JButton quit = new JButton("Quit");
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 			quit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setVisible(false);
 					startPanel.setVisible(true);
+<<<<<<< HEAD
 					main.stopGame();
 					gamePanel = null;	// Destroy game
 				}
@@ -242,5 +267,18 @@ public class SlimeRun {
 				}
 			}
 		}
+=======
+					gamePanel = null;	// Destroy game
+				}
+			});
+			
+			// Add components to top panel
+			JPanel top = new JPanel();
+			top.setLayout(new BorderLayout());
+			top.add(quit, BorderLayout.WEST);
+			// Add top panel to game panel
+			add(top, BorderLayout.NORTH);
+		}
+>>>>>>> b16349f797fd59c83655a224675cf6586946181b
 	}
 }
