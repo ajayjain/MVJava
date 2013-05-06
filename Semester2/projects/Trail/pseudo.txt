@@ -1,0 +1,50 @@
+1st Refinement/Initial Design
+===============
+create window
+draw black square in center
+listen for key press
+	key q -> draw box up left
+	key w -> draw box up
+	key e -> draw box up right
+	key a -> draw box left
+	key d -> draw box right
+	key z -> draw box down left
+	key x -> draw box down
+	key c -> draw box down right
+	make gradient along boxes from black to lighter
+	
+2nd Refinement
+==============
+let JFrame frame
+let JPanel panel = getContentPanel
+let points = 2d array of integers containing upper left coords of boxes
+add 1st point in center
+
+keyPressed
+	add int[] to points depending on key
+		key q -> add box up left
+		key w -> add box up
+		key e -> add box up right
+		key a -> add box left
+		key d -> add box right
+		key z -> add box down left
+		key x -> add box down
+		key c -> add box down right
+		repaint()
+	
+paintComponent()
+	let c = Color.black
+	loop through points backward
+		setColor to c
+		drawRectangle(x, y, 5, 5)
+		c = c.brighter()
+		
+3rd Refinement (only for paintComponent)
+========================================
+paintComponent(g)
+	let c = Color.black
+	initialize counter to length of points minus one
+	while counter >= 0
+		setColor to c
+		drawRectangle(points[counter][0], points[counter][1], 5, 5)
+		c = c.brighter()

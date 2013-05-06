@@ -1,0 +1,59 @@
+Ajay Jain
+March 26, 2013
+Quote.java
+Displays random quotes with customizable size and color.
+
+class Quote
+	JFrame frame
+	ButtonGroup colorPicker
+	JRadioButton red, blue, black
+	JTextArea quote
+	JTextArea author
+	JSlider fontSize
+	
+	String[] quotes = {"So, naturalists observe, a flea Has smaller fleas that on him prey; And these have smaller still to bite 'em; And so proceed ad infinitum."}
+	String[] authors = {"Jonathan Swift"}
+	
+	run ->
+		init and configure JFrame frame
+		set a 3 x 2 grid layout
+		
+		create JButton with text "PRESS FOR A RANDOM QUOTE"
+		button.addActionListener(new ButtonListener())
+		add button to frame
+		
+		init JTextArea quote
+		add quote to frame
+		
+		init ButtonGroup colorPicker
+		init JRadioButton red, blue, black
+		
+		add ActionListener to red
+			actionPerformed
+				author.setColor Color.red
+		add ActionListener for blue
+			...
+		add ActionListener for black
+			...
+		
+		add red, blue and black radio buttons to colorPicker
+		add colorPicker to frame
+		
+		init JTextArea author
+		add author to frame
+		
+		init JSlider fontSize
+		set range as 16 to 24
+		fontSize.addChangeListener(new SliderListener())
+		add fontSize to frame
+		
+	class ButtonListener implements ActionListener
+		actionPerformed (ActionEvent e) ->
+			choose random index from 0 to (quotes.length - 1)
+			quote.setText(quotes[index])
+			author.setText(authors[index])
+			
+	class SliderListener implements ChangeListener
+		stateChanged (ChangeEvent e) ->
+			let size = slider.getValue()
+			quote.setFont(new Font with size)

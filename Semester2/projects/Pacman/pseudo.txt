@@ -1,0 +1,96 @@
+Ajay Jain
+March 4, 2013
+Pacman.java
+A simplified version of Pacman, where you try to eat all the cheese and avoid the monsters.
+
+Pseudocode grammer & syntax
+---------------------------
+Method: `(Type param) ->` or `->`
+
+
+class Pacman
+	String[][] board
+	byte[3] pacman			[row, col, 0 = wide mouth, 1 = small mouth]
+	JFrame frame
+	GamePanel panel
+	byte cheese = 6
+	
+	main: -> run()
+	
+	run: ->
+		board = new String[10][10]			format of string: "cheesecount-monstercount" ("12" - 1 cheese, 2 monsters)
+		
+		placeStuff(1)
+		placeStuff(2)
+		
+		init frame
+		init panel
+		place panel in frame
+		
+			
+	placeStuff: (int statusIndex) ->
+		for (int count of [0...7])
+			switch (statusIndex)
+				case 1:
+					mark random cheese while not on unique square
+					break
+				case 2:
+					mark random monster
+		mark random pacman
+		
+	class GamePanel extends JPanel implements KeyListener
+		GamePanel: ->
+			Timer timer = new Timer(20, new GameLoop())
+			timer.start();
+	
+		paintComponent: (Grapics g) ->
+			drawBackground(g)
+			drawGrid(g)
+			
+		drawBackground: (Graphics g) ->
+			setBackground Color.blue
+			g.setColor(Color.gray)
+			Fill rect for board outline
+			g.setColor(Color.red)
+			Fill bottom red rect for instructions
+			
+			Draw string "Directions: a = ..." at bottom of screen
+		
+		drawGrid: (Graphics g) ->
+			for int row of [0...10]
+				for int col of [0...10]
+					String status = board[row][col]
+					Draw white square
+					if status.charAt(0) > 0
+						Draw cheese square
+						if pacman is on this spot && --cheese < 1
+							Draw Win string
+					if status.charAt(1) > 0
+						Draw monster
+						if pacman is on this spot
+							Draw Lose string
+			Draw pacman with either wide or narrow mouth depending on pacman[2]
+		
+		keyPressed: (KeyEvent) ->
+			if key is r
+				relaunch
+			else
+				update pacman location after testing bounds
+				
+			repaint()
+						
+	class GameLoop implements ActionListener
+		actionPerformed: (ActionEvent e) ->
+			Flip pacman[2] from 0 to 1 or 1 to 0
+			
+			for int row of [0...10]
+				for int col of [0...10]
+					String status = board[row][col]
+					if there are monsters
+						for i from 0 to monster count
+							int newrow = row, newcol = col
+							newrow += random int in {-1,0,1} while newrow isn't within [0,9]
+							newcol += random int in {-1,0,1} while newcol isn't within [0,9]
+							remove monster from board
+							add new monster to board
+			panel.repaint()

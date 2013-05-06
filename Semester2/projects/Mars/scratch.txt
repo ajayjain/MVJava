@@ -1,0 +1,49 @@
+private HashMap scores = new HashMap();			// Holds scores, read from lead.txt
+private int plays = 0;							// Total plays of the Mars game
+	private String name = "";
+
+		/*
+		// Draconian name length requirement
+		while (name.length() < 3) {
+			System.out.print("Enter your name to save your score (must be at least 3 characters) -> ");
+			kb.nextLine();
+			name = kb.nextLine().trim();
+		}
+		
+		try {
+			Scanner f = new Scanner(new File("lead.txt"));
+			plays = f.nextInt();
+			f.nextLine();
+			// read scores
+			//names = new ArrayList<String>();
+			//scores = new ArrayList<Integer>();
+			while (f.hasNext()) {
+				String[] row = new String[2];
+				row = f.nextLine().split(" => ", 2);
+				System.out.println(Arrays.toString(row));
+				//names.add(row[0]);
+				//scores.add(row[1]);
+				int prevScore = 0,
+					newScore  = Integer.parseInt(row[1], 10);
+				if (scores.containsKey(name))
+					prevScore = scores.get(name);
+				if (newScore > prevScore) {
+					System.out.printf("New personal best score %d! Old score: %d", newScore, prevScore);
+					
+				}
+			}
+			System.out.println("\nLeader Board\n=============");
+		} catch (Exception e) {
+			// lead.txt not created yet
+			try {
+				PrintWriter output = new PrintWriter(new File("lead.txt"));
+				output.println(1);
+				output.println(name+" => "+ComputedScore());
+				output.close();
+			} catch (IOException ioe) {
+				System.err.println("ERROR: Cannot open file lead.txt");
+				System.exit(1);
+			}
+		}
+	}
+	*/

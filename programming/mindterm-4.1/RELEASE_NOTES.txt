@@ -1,0 +1,162 @@
+                    Release notes for MindTerm 4.1
+
+* MindTerm now trust and use the Java built-in PRNG instead of using it's
+  own implementation.
+
+* The FTPOverSFTP bridge now supports FTP APPEND.
+
+* The file transfer dialog has been improved to better show progress when
+  transferring several files.
+
+* It is now possible use the command line option --S or option 'startsftp' to
+  start only SFTP browser upon connecting.
+ 
+* SFTP recursive copy no longer follows/copies links. 
+
+* Fixed bug in FTPOverSFTP bridge - could not list attrs for individual files.
+
+* Fixed applet crash when reading properties it wasn't allowed to read.
+
+* Fixed problems with applet not closing down properly.
+
+* Improved error message when server refuses to start interactive shell.
+
+* Fixed problems with cursor overwriting text in terminal window.
+
+* Fixed problems with using / as path separator for host key files.
+
+* Add workaround for strange SFTP server which allow opening a file but
+  not doing fstat on it immediately afterwards.
+
+* Remove support for hmac-sha2-{256,512}-96 since they were removed from
+  SSH protocol specs.
+
+* Passthrough printing now supports printing to a printer in addition to
+  saving to a file.
+
+* Fixed bug with connection setup sometimes failing when specifying 
+  the SSH protocol to use.
+
+
+=======================================================================
+
+                    Release notes for MindTerm 4.0
+
+* Requires Java 1.5 or later
+
+* Switched to use Java non-blocking io (NIO)
+  This removes the need to have lots of separate threads handling
+  different reads and writes and makes a big difference if you connect
+  to many hosts at the same time. Note that some features (terminal
+  windows, filtered channels among them) still use the old blocking
+  API which requires separate threads.
+
+* Removed AWT version of GUI
+  In order to simplify the code we have removed the AWT version of the
+  GUI. This has also forced us to do some more API changes. See below
+  for details.
+
+* Use the Java Cryptographic Environment (JCE) rather than its own
+  cryptographic classes. This can affect the available cipher types
+  and/or lengths. For example, to use ciphers like AES-256 with the
+  standard Oracle JCE, the unlimited strength JCE policy files must
+  be installed - contact the Java/JCE vendor for more information.
+
+* Using the JCE also makes it possible to run MindTerm in a
+  FIPS mode where only FIPS-approved algorithms are used, see
+  README.FIPS.txt for details.
+
+* Added support for elliptic curve key exchange algorithms and host
+  keys. This only works if the Java Cryptographic Provider supports
+  the EC algorithms (like Bouncycastle JCE).
+
+* The code has been checked and does no longer produce any warnings
+  when loaded in Eclipse.
+
+* Embedded applet may now resize to fill the area allocated to
+  it. This can be stopped by setting resizable to false
+
+
+                             API CHANGES
+
+All these changes have forced us to change a number of APIs. The most
+visible of these are:
+
+    com.mindbright.ssh2.SSH2Transport:
+      SSH2Transport()
+        The Socket argument to the constructors has been replaced by a
+        com.mindbright.nio.NetworkConnection object. Typically this
+        requires you to change code which looks like:
+          Socket socket           = new Socket(server, port);
+          SSH2Transport transport = new SSH2Transport(socket, prefs,
+                                                      createSecureRandom());
+        to:
+          NetworkConnection socket = NetworkConnection.open(server, port);
+          SSH2Transport transport  = new SSH2Transport(socket, prefs,
+                                                       createSecureRandom());
+
+    com.mindbright.ssh2.SSH2Channel:
+      waitUntilClosed()
+        This method now requires an int argument which is how long we
+        should waith.
+
+    com.mindbright.sshcommon/SSHConsoleClient:
+      getProxyConnection()
+        This method now returns a NetworkConnection instead of a Socket
+
+    com.mindbright.ssh.SSHClientUser:
+      getProxyConnection()
+        This method should now return a NetworkConnection
+      getConnectTimeout()
+      getHelloTimeout()
+      getKexTimeout()
+        These are new methods which have to be implemented by any
+        class implementing this interface.
+
+    com.mindbright.terminal.TerminalWin:
+      Constructors no longer take a Frame, instead they take a JFrame
+      or a container.
+
+    com.mindbright.terminal.TerminalMenuHandlerFull
+      getInstance()
+        This method has been removed, instead just create a new
+        instance.
+      addBasicMenus()
+        This method now takes a TerminalWin and a JMenuBar as arguments
+      
+There are also a number of classes which have new methods which deals
+with non-blocking io. The most visible of these new methods are:
+
+    com.mindbright.ssh2.SSH2Transport:
+        void setSocketOptions(String desc, NetworkConnection conn);
+
+    com.mindbright.ssh2.SSh2ConsoleRemote:
+        boolean command(String command, NonBlockingInput stdin,
+                        NonBlockingOutput stdout, NonBlockingOutput stderr);
+        boolean command(String command, NonBlockingInput stdin,
+                        NonBlockingOutput stdout, NonBlockingOutput stderr,
+                        boolean pty);
+        boolean command(String command, NonBlockingInput stdin,
+                        NonBlockingOutput stdout, NonBlockingOutput stderr,
+                        boolean pty, String termType, int rows, int cols);
+        boolean shell(NonBlockingInput stdin, NonBlockingOutput stdout,
+                      NonBlockingOutput stderr);
+        boolean shell(NonBlockingInput stdin, NonBlockingOutput stdout,
+                      NonBlockingOutput stderr, boolean pty,
+                      String termType, int rows, int cols);
+        void changeStdOut(NonBlockingOutput out);
+        NonBlockingOutput getNBStdIn();
+        NonBlockingInput getNBStdOut();
+
+    com.mindbright.ssh2.SSH2SessionChannel:
+        void changeStdOut(NonBlockingOutput out);
+
+    com.mindbright.sshcommon/SSHConsoleRemote:
+        void changeStdOut(NonBlockingOutput out);
+        NonBlockingOutput getNBStdIn();
+        NonBlockingInput getNBStdOut();
+
+    com.mindbright.sshcommon/SSHConsoleClient:
+        void changeStdOut(NonBlockingOutput out);
+        NonBlockingOutput getNBStdIn();
+        NonBlockingInput getNBStdOut();
