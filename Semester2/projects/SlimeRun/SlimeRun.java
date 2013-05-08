@@ -7,44 +7,43 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-<<<<<<< HEAD
 import java.io.*;
 import javax.imageio.ImageIO;
 
-=======
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
+import java.util.Random;
+
 public class SlimeRun {
 	private JFrame frame;
 	private StartScreen startPanel;
 	private GamePanel gamePanel;
+	private QuestionLoader questions;
 	
-<<<<<<< HEAD
-=======
-	//public SlimeRun() {}
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 	public static void main(String[] args) {
 		(new SlimeRun()).init();
 	}
 	
 	// Set up frame, show start screen
 	public void init() {
+		// Begin loading questions
+		questions = new QuestionLoader();
+		questions.start();
+		
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< HEAD
 		frame.setSize(32*15, 32*6);
 		frame.setLocation(200, 100);
-=======
-		frame.setSize(600, 400);
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		frame.setResizable(false);
 		
+		// Create start screen
 		startPanel = new StartScreen();
+		// Attach a listener that fires on start button press
 		startPanel.addStartListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startPanel.setVisible(false);
 				run();
 			}
 		});
+		// Add start screen
 		frame.getContentPane().add(startPanel, BorderLayout.CENTER);
 		
 		frame.setVisible(true);
@@ -53,15 +52,10 @@ public class SlimeRun {
 	// Launch actual game
 	private void run() {
 		gamePanel = new GamePanel();
-<<<<<<< HEAD
-=======
-		gamePanel.createTopBar();
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		frame.getContentPane().add(gamePanel);
 	}
 	
 	class GamePanel extends JPanel {	
-<<<<<<< HEAD
 		private MainPanel main;
 		private JPanel top;
 		private JButton quit, help;
@@ -74,24 +68,15 @@ public class SlimeRun {
 			
 			main = new MainPanel();
 			add(main, BorderLayout.CENTER);
-=======
-		public GamePanel() {
-			setLayout(new BorderLayout());
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 		}
 		
 		public void createTopBar() {
 			// Button to go to main screen
-<<<<<<< HEAD
 			quit = new JButton("Quit");
-=======
-			JButton quit = new JButton("Quit");
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 			quit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setVisible(false);
 					startPanel.setVisible(true);
-<<<<<<< HEAD
 					main.stopGame();
 					gamePanel = null;	// Destroy game
 				}
@@ -107,10 +92,6 @@ public class SlimeRun {
 			top.add(help, BorderLayout.EAST);
 			// Add top panel to game panel
 			add(top, BorderLayout.NORTH);
-		}
-		
-		private void askQuestion() {
-		
 		}
 		
 		//class TopPanel extends JPanel implements MouseListener {}
@@ -150,6 +131,47 @@ public class SlimeRun {
 					e.printStackTrace();
 					System.exit(1);
 				}	
+			}
+			
+			private void askQuestion() {
+				timer.stop();
+				Random rand = new Random();
+				if (startPanel.subjects[0].isSelected()) {
+					int randIndex = rand.nextInt(questions.physics.length);
+					String[] question = questions.physics[randIndex];
+					System.out.println(question[0]+" -> "+question[1]);
+					
+					// Create JFrame for question and answers
+					JFrame qframe = new JFrame("Physics Question");
+					qframe.setSize(500, 300);
+					qframe.setLocation(500, 300);
+					qframe.getContentPane().add(new JLabel(question[0]), BorderLayout.NORTH);
+					
+					// Create JPanel containing answer choice buttons
+					JPanel choicePanel = new JPanel();
+					choicePanel.setLayout(new GridLayout(2, 2));
+					
+					String[] choices = new String[4];
+					// Randomly place the correct choice
+					choices[rand.nextInt(4)] = question[1];
+					for (int i = 0; i < 4; i++) {
+						// Skip the correct one (already placed)
+						if (choices[i] != null) continue;
+						// Add a random answer from the data set
+						randIndex = rand.nextInt(questions.physics.length);
+						choices[i] = questions.physics[randIndex][0];
+					}
+					
+					// Create and add buttons for choices
+					choicePanel.add(new JButton(choices[0]));
+					choicePanel.add(new JButton(choices[1]));
+					choicePanel.add(new JButton(choices[2]));
+					choicePanel.add(new JButton(choices[3]));
+					// Add choice panel to frame
+					qframe.getContentPane().add(choicePanel, BorderLayout.CENTER);
+					
+					qframe.setVisible(true);
+				}
 			}
 			
 			public void paintComponent(Graphics g) {
@@ -220,18 +242,20 @@ public class SlimeRun {
 			
 			// Update slime properties on key press
 			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyChar()) {
-					case 'w':
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP:
+					case KeyEvent.VK_W:
 						player.jump();
 						break;
-					case 's':
+					case KeyEvent.VK_DOWN:
+					case KeyEvent.VK_S:
 						player.duck();
 				}
 			}
 			
 			// Stop slide
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == 's')
+				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
 					player.stand();
 			}
 			
@@ -258,27 +282,14 @@ public class SlimeRun {
 					int playerColumn = (int) (player.x/32);
 					if (map[playerColumn] == GameObject.BUMP && player.y >= 32*2) {
 						askQuestion();
-						System.out.println("Hit BUMP");
+						System.out.println("Overlapping BUMP");
 					}
 					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 73) {
 						askQuestion();
-						System.out.println("Hit OVERHANG");
+						System.out.println("Overlapping OVERHANG");
 					}
 				}
 			}
 		}
-=======
-					gamePanel = null;	// Destroy game
-				}
-			});
-			
-			// Add components to top panel
-			JPanel top = new JPanel();
-			top.setLayout(new BorderLayout());
-			top.add(quit, BorderLayout.WEST);
-			// Add top panel to game panel
-			add(top, BorderLayout.NORTH);
-		}
->>>>>>> b16349f797fd59c83655a224675cf6586946181b
 	}
 }
