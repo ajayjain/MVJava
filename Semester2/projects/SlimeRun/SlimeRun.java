@@ -30,7 +30,7 @@ public class SlimeRun {
 		
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(32*15, 32*6);
+		frame.setSize(32*15+10, 32*6);
 		frame.setLocation(200, 100);
 		frame.setResizable(false);
 		
@@ -57,13 +57,12 @@ public class SlimeRun {
 	
 	class GamePanel extends JPanel {	
 		private MainPanel main;
-		private JPanel top;
-		private JButton quit, help;
+		private JMenuBar top;
+		private JButton quit;
 		private JFrame myframe;
 		
 		public GamePanel() {
 			setLayout(new BorderLayout());
-			
 			createTopBar();
 			
 			main = new MainPanel();
@@ -81,16 +80,12 @@ public class SlimeRun {
 					gamePanel = null;	// Destroy game
 				}
 			});
-			help = new JButton("Help");
 			
 			// Add components to top panel
-			top = new JPanel();
-			top.setBackground(Color.green);
+			top = new JMenuBar();
+			top.setBackground(new Color(105, 204, 255, 150));
 			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 32 px
-			top.setLayout(new BorderLayout());
-			top.add(quit, BorderLayout.WEST);
-			top.add(help, BorderLayout.EAST);
-			// Add top panel to game panel
+			top.add(quit);
 			add(top, BorderLayout.NORTH);
 		}
 		
@@ -135,42 +130,62 @@ public class SlimeRun {
 			
 			private void askQuestion() {
 				timer.stop();
+				IncorrectListener il = new IncorrectListener();
+				CorrectListener cl = new CorrectListener();
+				if (startPanel.subjects[0].isSelected())
+					askPhysicsQuestion(il, cl);
+			}
+			
+			private void askPhysicsQuestion(ActionListener il, ActionListener cl) {
 				Random rand = new Random();
-				if (startPanel.subjects[0].isSelected()) {
-					int randIndex = rand.nextInt(questions.physics.length);
-					String[] question = questions.physics[randIndex];
-					System.out.println(question[0]+" -> "+question[1]);
-					
-					// Create JFrame for question and answers
-					JFrame qframe = new JFrame("Physics Question");
-					qframe.setSize(500, 300);
-					qframe.setLocation(500, 300);
-					qframe.getContentPane().add(new JLabel(question[0]), BorderLayout.NORTH);
-					
-					// Create JPanel containing answer choice buttons
-					JPanel choicePanel = new JPanel();
-					choicePanel.setLayout(new GridLayout(2, 2));
-					
-					String[] choices = new String[4];
-					// Randomly place the correct choice
-					choices[rand.nextInt(4)] = question[1];
-					for (int i = 0; i < 4; i++) {
-						// Skip the correct one (already placed)
-						if (choices[i] != null) continue;
-						// Add a random answer from the data set
-						randIndex = rand.nextInt(questions.physics.length);
-						choices[i] = questions.physics[randIndex][0];
-					}
-					
-					// Create and add buttons for choices
-					choicePanel.add(new JButton(choices[0]));
-					choicePanel.add(new JButton(choices[1]));
-					choicePanel.add(new JButton(choices[2]));
-					choicePanel.add(new JButton(choices[3]));
-					// Add choice panel to frame
-					qframe.getContentPane().add(choicePanel, BorderLayout.CENTER);
-					
-					qframe.setVisible(true);
+				int randIndex = rand.nextInt(questions.physics.length);
+				String[] question = questions.physics[randIndex];
+				System.out.println(question[0]+" -> "+question[1]);
+				
+				// Create JFrame for question and answers
+				JFrame qframe = new JFrame("Physics Question");
+				qframe.setSize(500, 300);
+				qframe.setLocation(500, 300);
+				qframe.getContentPane().add(new JLabel(question[0]), BorderLayout.NORTH);
+				
+				// Create JPanel containing answer choice buttons
+				JPanel choicePanel = new JPanel();
+				choicePanel.setLayout(new GridLayout(4, 1));
+				
+				// Init JButton array for each choice
+				JButton[] choices = new JButton[4];
+				// Randomly place the button for the correct choice in the choices array
+				int correctIndex = rand.nextInt(4);
+				choices[correctIndex] = new JButton(question[1]);
+				choices[correctIndex].addActionListener(cl);	// Add listener that is called on selection of the correct choice
+				for (int i = 0; i < 4; i++) {
+					if (i == correctIndex) continue;	// Skip the correct choice (already placed)
+					randIndex = rand.nextInt(questions.physics.length);	// Choose a random index
+					String choice = questions.physics[randIndex][0];	// Text of answer choice from the data set
+					choices[i] = new JButton(choice);
+					choices[i].addActionListener(il);	// Incorrect answer
+				}
+				
+				// Create and add buttons for choices
+				choicePanel.add(choices[0]);
+				choicePanel.add(choices[1]);
+				choicePanel.add(choices[2]);
+				choicePanel.add(choices[3]);
+				// Add choice panel to frame
+				qframe.getContentPane().add(choicePanel, BorderLayout.CENTER);
+				
+				qframe.setVisible(true);
+			}
+			
+			class IncorrectListener implements ActionListener {
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("INCORRECT");
+				}
+			}
+			
+			class CorrectListener implements ActionListener {
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("CORRECT");
 				}
 			}
 			
@@ -230,7 +245,7 @@ public class SlimeRun {
 						numberToSkip = 2;
 					} else if (rand > .6) {
 						map[col] = GameObject.OVERHANG;
-						numberToSkip = 1;
+						numberToSkip = 2;
 					}
 				}
 			}
@@ -285,6 +300,7 @@ public class SlimeRun {
 						System.out.println("Overlapping BUMP");
 					}
 					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 73) {
+						player.stand();
 						askQuestion();
 						System.out.println("Overlapping OVERHANG");
 					}
