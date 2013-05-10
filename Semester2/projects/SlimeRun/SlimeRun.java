@@ -17,6 +17,7 @@ public class SlimeRun {
 	private StartScreen startPanel;
 	private GamePanel gamePanel;
 	private QuestionLoader questions;
+	private QuestionFrame qframe;
 	
 	public static void main(String[] args) {
 		(new SlimeRun()).init();
@@ -58,8 +59,8 @@ public class SlimeRun {
 	class GamePanel extends JPanel {	
 		private MainPanel main;
 		private JMenuBar top;
-		private JButton quit;
-		private JFrame myframe;
+		private JButton quit, resume;
+		private JLabel directions;
 		
 		public GamePanel() {
 			setLayout(new BorderLayout());
@@ -74,18 +75,28 @@ public class SlimeRun {
 			quit = new JButton("Quit");
 			quit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					// Hide panels
 					setVisible(false);
 					startPanel.setVisible(true);
-					main.stopGame();
-					gamePanel = null;	// Destroy game
+					
+					// Stop and destroy the game
+					main.timer.stop();
+					main.player = null;
+					main = null;
+					gamePanel = null;
 				}
 			});
+			//resume
+			
+			// Game instructions
+			directions = new JLabel(" [W]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
 			
 			// Add components to top panel
 			top = new JMenuBar();
 			top.setBackground(new Color(105, 204, 255, 150));
 			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 32 px
 			top.add(quit);
+			top.add(directions);
 			add(top, BorderLayout.NORTH);
 		}
 		
@@ -94,10 +105,11 @@ public class SlimeRun {
 		class MainPanel extends JPanel implements KeyListener {
 			private byte[] map = new byte[15];
 			
-			private Slime player;	// The player
+			Slime player;	// The player
 			private Image blockImage; // Image of a block
-			private Timer timer;	// 2 milisecond game loop
+			Timer timer;	// 2 milisecond game loop
 			private int w = getWidth(), h = getHeight();
+			private boolean paused = false;
 			
 			public MainPanel() {
 				super();
@@ -112,7 +124,6 @@ public class SlimeRun {
 				
 				timer = new Timer(4, new GameLoop());
 				timer.start();
-				
 				// Start listening for key presses
 				addKeyListener(this);
 			}
@@ -125,13 +136,20 @@ public class SlimeRun {
 				} catch (IOException e) {
 					e.printStackTrace();
 					System.exit(1);
-				}	
+				}
 			}
 			
 			private void askQuestion() {
-				timer.stop();
+				pauseGame();
+				
+				if (qframe == null)
+					// Create JFrame for question and answers
+					qframe = new QuestionFrame();
+				
+				// Create listeners for when question is answered
 				IncorrectListener il = new IncorrectListener();
 				CorrectListener cl = new CorrectListener();
+				
 				if (startPanel.subjects[0].isSelected())
 					askPhysicsQuestion(il, cl);
 			}
@@ -140,17 +158,6 @@ public class SlimeRun {
 				Random rand = new Random();
 				int randIndex = rand.nextInt(questions.physics.length);
 				String[] question = questions.physics[randIndex];
-				System.out.println(question[0]+" -> "+question[1]);
-				
-				// Create JFrame for question and answers
-				JFrame qframe = new JFrame("Physics Question");
-				qframe.setSize(500, 300);
-				qframe.setLocation(500, 300);
-				qframe.getContentPane().add(new JLabel(question[0]), BorderLayout.NORTH);
-				
-				// Create JPanel containing answer choice buttons
-				JPanel choicePanel = new JPanel();
-				choicePanel.setLayout(new GridLayout(4, 1));
 				
 				// Init JButton array for each choice
 				JButton[] choices = new JButton[4];
@@ -166,14 +173,7 @@ public class SlimeRun {
 					choices[i].addActionListener(il);	// Incorrect answer
 				}
 				
-				// Create and add buttons for choices
-				choicePanel.add(choices[0]);
-				choicePanel.add(choices[1]);
-				choicePanel.add(choices[2]);
-				choicePanel.add(choices[3]);
-				// Add choice panel to frame
-				qframe.getContentPane().add(choicePanel, BorderLayout.CENTER);
-				
+				qframe.askQuestion(question, choices);
 				qframe.setVisible(true);
 			}
 			
@@ -186,16 +186,30 @@ public class SlimeRun {
 			class CorrectListener implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("CORRECT");
+					// Hide question dialouge
+					qframe.setVisible(false);
+					// Free the player from the colliding block
+					map[player.getColumn()] = GameObject.AIR;
+					player.vel_x = 0;
+					player.vel_y = 0;
+					// Resume game
+					timer.start();
 				}
 			}
 			
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
+				
 				// Draw slime character
 				player.drawSlime(g, this);
-				
 				// Draw map
 				drawMap(g);
+				
+				if (paused) {
+					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+					g.setColor(Color.blue);
+					g.drawString("PAUSED", 170, 60);
+				}
 			}
 			
 			// Draws blocks
@@ -250,9 +264,15 @@ public class SlimeRun {
 				}
 			}
 			
-			public void stopGame() {
+			// Pause the game
+			private void pauseGame() {
 				timer.stop();
-				player = null;
+				paused = true;
+			}
+			
+			private void resumeGame() {
+				timer.start();
+				paused = false;
 			}
 			
 			// Update slime properties on key press
@@ -265,6 +285,10 @@ public class SlimeRun {
 					case KeyEvent.VK_DOWN:
 					case KeyEvent.VK_S:
 						player.duck();
+						break;
+					case KeyEvent.VK_ESCAPE:
+					case KeyEvent.VK_P:
+						pauseGame();
 				}
 			}
 			
@@ -294,7 +318,7 @@ public class SlimeRun {
 				
 				// Collision detection for player
 				private void detectCollision() {
-					int playerColumn = (int) (player.x/32);
+					int playerColumn = player.getColumn();
 					if (map[playerColumn] == GameObject.BUMP && player.y >= 32*2) {
 						askQuestion();
 						System.out.println("Overlapping BUMP");

@@ -80,6 +80,10 @@ public class Slime extends GameObject {
 		vel_y = -2.25;
 	}
 	
+	public int getColumn() {
+		return (int) (x/32);
+	}
+	
 	public void loadFrames() {
 		try {
 			imageRun = ImageIO.read(new File("images/green/main.png"));
