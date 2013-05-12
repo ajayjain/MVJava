@@ -102,7 +102,7 @@ public class SlimeRun {
 		
 		//class TopPanel extends JPanel implements MouseListener {}
 		
-		class MainPanel extends JPanel implements KeyListener {
+		class MainPanel extends JPanel		 {
 			private byte[] map = new byte[15];
 			
 			Slime player;	// The player
@@ -122,10 +122,12 @@ public class SlimeRun {
 				// Generate a map, skipping the first 3 columns
 				generateMap(3);
 				
-				timer = new Timer(4, new GameLoop());
+				timer = new Timer(6, new GameLoop());
 				timer.start();
 				// Start listening for key presses
-				addKeyListener(this);
+				//addKeyListener(this);
+				bindKeyStrokes();
+
 			}
 			
 			// Load image of the basic block
@@ -190,10 +192,11 @@ public class SlimeRun {
 					qframe.setVisible(false);
 					// Free the player from the colliding block
 					map[player.getColumn()] = GameObject.AIR;
+					// Stop movement (player had hit an object)
 					player.vel_x = 0;
 					player.vel_y = 0;
-					// Resume game
-					timer.start();
+					// Repaint to hide destroyed pblock
+					repaint();
 				}
 			}
 			
@@ -208,7 +211,9 @@ public class SlimeRun {
 				if (paused) {
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
 					g.setColor(Color.blue);
-					g.drawString("PAUSED", 170, 60);
+					g.drawString("PAUSED", 165, 60);
+					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+					g.drawString("Press [P] or [ESC]", 175, 80);
 				}
 			}
 			
@@ -266,40 +271,60 @@ public class SlimeRun {
 			
 			// Pause the game
 			private void pauseGame() {
-				timer.stop();
 				paused = true;
+				repaint();
+				timer.stop();
 			}
 			
 			private void resumeGame() {
 				timer.start();
 				paused = false;
 			}
-			
-			// Update slime properties on key press
-			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_UP:
-					case KeyEvent.VK_W:
+
+			private void bindKeyStrokes() {
+				InputMap in = getInputMap();
+				ActionMap ac = getActionMap();
+				
+				// Jump
+				in.put(KeyStroke.getKeyStroke('w'), "jump");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "jump");
+				ac.put("jump", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
 						player.jump();
-						break;
-					case KeyEvent.VK_DOWN:
-					case KeyEvent.VK_S:
+					}
+				});
+
+				// Duck
+				in.put(KeyStroke.getKeyStroke('s'), "duck");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "duck");
+				ac.put("duck", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
 						player.duck();
-						break;
-					case KeyEvent.VK_ESCAPE:
-					case KeyEvent.VK_P:
-						pauseGame();
-				}
+					}
+				});
+
+				// Stand
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "stand");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "stand");
+				ac.put("stand", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
+						player.stand();
+					}
+				});
+
+				// Pause
+				in.put(KeyStroke.getKeyStroke('p'), "pause");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pause");
+				ac.put("pause", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
+						if (paused)
+							resumeGame();
+						else
+							pauseGame();
+					}
+				});
 			}
-			
-			// Stop slide
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
-					player.stand();
-			}
-			
-			public void keyTyped(KeyEvent e) {};
-		
+
 			class GameLoop implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					main.repaint();
@@ -333,3 +358,4 @@ public class SlimeRun {
 		}
 	}
 }
+
