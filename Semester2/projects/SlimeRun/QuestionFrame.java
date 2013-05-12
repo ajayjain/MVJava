@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-class QuestionFrame extends JFrame {
+public class QuestionFrame extends JFrame {
 	private JPanel choicePanel;
 	private JTextArea questionText;
 	

@@ -1,0 +1,3 @@
+Author of block images (except for basic.png): David Gedarovich, glassknuckle.com
+URL: http://opengameart.org/content/32x32-blocks-and-more
+Licensed under Creative Commons Attribution 3.0: http://creativecommons.org/licenses/by/3.0/

@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-class QuestionLoader extends Thread {
+public class QuestionLoader extends Thread {
 	public String[][] physics;
 	
 	public void run() {

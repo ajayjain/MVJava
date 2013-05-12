@@ -97,4 +97,6 @@ public class Slime extends GameObject {
 	public void drawSlime(Graphics g, ImageObserver observe) {
 		g.drawImage(imageRun, (int) Math.floor(x), y, w, h, observe);
 	}
+
+	public boolean isDucking() { return ducking; }
 }

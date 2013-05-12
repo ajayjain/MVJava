@@ -16,6 +16,7 @@ public class SlimeRun {
 	private JFrame frame;
 	private StartScreen startPanel;
 	private GamePanel gamePanel;
+	private ImageLoader images;
 	private QuestionLoader questions;
 	private QuestionFrame qframe;
 	
@@ -25,6 +26,10 @@ public class SlimeRun {
 	
 	// Set up frame, show start screen
 	public void init() {
+		// Begin loading block images
+		images = new ImageLoader();
+		images.start();
+
 		// Begin loading questions
 		questions = new QuestionLoader();
 		questions.start();
@@ -106,7 +111,7 @@ public class SlimeRun {
 			private byte[] map = new byte[15];
 			
 			Slime player;	// The player
-			private Image blockImage; // Image of a block
+			private Image groundBlock = images.grassDirtBlock;
 			Timer timer;	// 2 milisecond game loop
 			private int w = getWidth(), h = getHeight();
 			private boolean paused = false;
@@ -117,8 +122,9 @@ public class SlimeRun {
 				setBackground(Color.pink);
 				
 				player = new Slime();
-				loadBlockImage();
-				
+				// Set block for the ground
+				groundBlock = images.grassDirtBlock;
+				randomGround();
 				// Generate a map, skipping the first 3 columns
 				generateMap(3);
 				
@@ -128,17 +134,6 @@ public class SlimeRun {
 				//addKeyListener(this);
 				bindKeyStrokes();
 
-			}
-			
-			// Load image of the basic block
-			private void loadBlockImage() {
-				try {
-					blockImage = ImageIO.read(new File("images/blocks/basic.png"));
-					System.out.println("Loaded ./images/blocks/basic.png");
-				} catch (IOException e) {
-					e.printStackTrace();
-					System.exit(1);
-				}
 			}
 			
 			private void askQuestion() {
@@ -195,7 +190,9 @@ public class SlimeRun {
 					// Stop movement (player had hit an object)
 					player.vel_x = 0;
 					player.vel_y = 0;
-					// Repaint to hide destroyed pblock
+					if (player.isDucking())
+						player.stand();
+					// Repaint to hide the destroyed block
 					repaint();
 				}
 			}
@@ -216,29 +213,44 @@ public class SlimeRun {
 					g.drawString("Press [P] or [ESC]", 175, 80);
 				}
 			}
+
+			// Choose random block for ground
+			private void randomGround() {
+				switch (new Random().nextInt(3)) {
+					case 0:
+						groundBlock = images.darkGrassDirtBlock;
+						break;
+					case 1:
+						groundBlock = images.grassDirtBlock;
+						break;
+					case 2:
+						groundBlock = images.stoneBlock;
+						break;
+				}
+			}
 			
 			// Draws blocks
 			private void drawMap(Graphics g) {
 				// Draw floor
 				for (int col = 0; col < map.length; col++) {
 					g.setColor(Color.black);
-					g.drawImage(blockImage, col*32, 3*32, 32, 32, this);
+					g.drawImage(groundBlock, col*32, 3*32, 32, 32, this);
 					//g.drawRect(col*32, 3*32, 32, 32);
 					
 					switch (map[col]) {
 						case GameObject.BUMP:
-							g.drawImage(blockImage, col*32, 2*32, 32, 32, this);	// Draw bump
+							g.drawImage(images.rock, col*32, 2*32, 32, 32, this);	// Draw bump
 							// Draw question mark
 							g.setColor(Color.red);
 							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 2*32+25);
+							g.drawString("?", col*32+11, 2*32+30);
 							break;
 						case GameObject.OVERHANG:
-							g.drawImage(blockImage, col*32, 0, 32, 73, this);	// Draw overhang
+							g.drawImage(images.roots, col*32, 0, 32, 73, this);	// Draw overhang
 							// Draw question mark
 							g.setColor(Color.red);
 							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 1*32+35);
+							g.drawString("?", col*32+11, 1*32+30);
 					}
 				}
 			}
@@ -281,6 +293,7 @@ public class SlimeRun {
 				paused = false;
 			}
 
+			// Create and attach actions to be executed on key strokes.
 			private void bindKeyStrokes() {
 				InputMap in = getInputMap();
 				ActionMap ac = getActionMap();
@@ -336,6 +349,7 @@ public class SlimeRun {
 					player.move();
 					// If the player passed the edge of the screen
 					if (player.x >= 32*15) {
+						randomGround();	// Swap ground block
 						generateMap(3);	// Regenerate the map
 						player.x = 0; // Move to start
 					}
