@@ -61,6 +61,7 @@ public class Slime extends GameObject {
 	
 	public void duck() {
 		ducking = true;
+		max_x = 1;	// Slow slime
 		h = 64-20;
 		w = 64+20;
 		y += 20;
@@ -69,14 +70,15 @@ public class Slime extends GameObject {
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			h = w = 64;
-			y -= 20;
+			max_x = 1.25;	// Restore speed
+			h = w = 64;	// Adjust size
+			y -= 20;	// Adjust position
 		}
 	}
 	
 	public void jump() {
 		jumping = true;
-		vel_y = -3.1;
+		vel_y = -3.3;
 	}
 	
 	public int getColumn() {

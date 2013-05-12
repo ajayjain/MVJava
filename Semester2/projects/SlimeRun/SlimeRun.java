@@ -34,10 +34,10 @@ public class SlimeRun {
 		questions = new QuestionLoader();
 		questions.start();
 		
-		frame = new JFrame();
+		frame = new JFrame("Slime Run");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(64*15+10, 64*6);
-		frame.setLocation(200, 100);
+		frame.setLocation(100, 100);
 		frame.setResizable(false);
 		
 		// Create start screen
@@ -94,7 +94,7 @@ public class SlimeRun {
 			//resume
 			
 			// Game instructions
-			directions = new JLabel(" [W]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
+			directions = new JLabel("       [W]/[SPACE]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
 			
 			// Add components to top panel
 			top = new JMenuBar();
@@ -208,9 +208,9 @@ public class SlimeRun {
 				if (paused) {
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
 					g.setColor(Color.blue);
-					g.drawString("PAUSED", 165, 60);
+					g.drawString("PAUSED", 40, 60);
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-					g.drawString("Press [P] or [ESC]", 175, 80);
+					g.drawString("Press [P] or [ESC]", 55, 80);
 				}
 			}
 
@@ -247,24 +247,24 @@ public class SlimeRun {
 							g.drawImage(images.rock, col*64, 2*64, 64, 64, this);
 							// Draw question mark
 							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*64+11, 2*64+30);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+11*2, 2*64+30*2);
 							break;
 						case GameObject.SPIKES:
 							// Draw spikes
 							g.drawImage(images.spikes, col*64, 2*64, 64, 64, this);
 							// Draw question mark
 							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*64+11, 2*64+30);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+11*2, 2*64+30*2);
 							break;
 						case GameObject.OVERHANG:
 							// Draw overhang
 							g.drawImage(images.roots, col*64, 0, 64, 146, this);
 							// Draw question mark
 							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*64+11, 1*64+30);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+22, 1*64+60);
 					}
 				}
 			}

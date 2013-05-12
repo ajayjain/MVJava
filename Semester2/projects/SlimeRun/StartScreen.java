@@ -49,7 +49,7 @@ public class StartScreen extends JPanel {
 		//subjectChooser.add(new JLabel("Select subject(s):"));
 		
 		JPanel radioPanel = new JPanel();
-		radioPanel.setBackground(new Color(105, 204, 255, 150));
+		radioPanel.setBackground(Color.orange);
 		ButtonGroup subjectGroup = new ButtonGroup();
 		// Initialize JRadioButtons
 		subjects = new JRadioButton[subjectNames.length];
