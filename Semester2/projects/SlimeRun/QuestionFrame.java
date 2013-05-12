@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-class QuestionFrame extends JFrame {
+public class QuestionFrame extends JFrame {
 	private JPanel choicePanel;
 	private JTextArea questionText;
 	
@@ -9,7 +9,7 @@ class QuestionFrame extends JFrame {
 		super();
 		setTitle("Quiz Question");
 		setSize(500, 300);
-		setLocation(500, 300);
+		setLocation(600, 400);
 		
 		// Create JPanel containing answer choice buttons
 		choicePanel = new JPanel();

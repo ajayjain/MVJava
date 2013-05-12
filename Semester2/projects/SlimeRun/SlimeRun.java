@@ -16,6 +16,7 @@ public class SlimeRun {
 	private JFrame frame;
 	private StartScreen startPanel;
 	private GamePanel gamePanel;
+	private ImageLoader images;
 	private QuestionLoader questions;
 	private QuestionFrame qframe;
 	
@@ -25,14 +26,18 @@ public class SlimeRun {
 	
 	// Set up frame, show start screen
 	public void init() {
+		// Begin loading block images
+		images = new ImageLoader();
+		images.start();
+
 		// Begin loading questions
 		questions = new QuestionLoader();
 		questions.start();
 		
-		frame = new JFrame();
+		frame = new JFrame("Slime Run");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(32*15+10, 32*6);
-		frame.setLocation(200, 100);
+		frame.setSize(64*15+10, 64*6);
+		frame.setLocation(100, 100);
 		frame.setResizable(false);
 		
 		// Create start screen
@@ -76,9 +81,9 @@ public class SlimeRun {
 			quit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Hide panels
-					setVisible(false);
+					gamePanel.setVisible(false);
+					qframe.setVisible(false);
 					startPanel.setVisible(true);
-					
 					// Stop and destroy the game
 					main.timer.stop();
 					main.player = null;
@@ -89,12 +94,12 @@ public class SlimeRun {
 			//resume
 			
 			// Game instructions
-			directions = new JLabel(" [W]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
+			directions = new JLabel("       [W]/[SPACE]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
 			
 			// Add components to top panel
 			top = new JMenuBar();
 			top.setBackground(new Color(105, 204, 255, 150));
-			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 32 px
+			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 64 px
 			top.add(quit);
 			top.add(directions);
 			add(top, BorderLayout.NORTH);
@@ -102,11 +107,11 @@ public class SlimeRun {
 		
 		//class TopPanel extends JPanel implements MouseListener {}
 		
-		class MainPanel extends JPanel implements KeyListener {
+		class MainPanel extends JPanel		 {
 			private byte[] map = new byte[15];
 			
 			Slime player;	// The player
-			private Image blockImage; // Image of a block
+			private Image groundBlock = images.grassDirtBlock;
 			Timer timer;	// 2 milisecond game loop
 			private int w = getWidth(), h = getHeight();
 			private boolean paused = false;
@@ -117,26 +122,18 @@ public class SlimeRun {
 				setBackground(Color.pink);
 				
 				player = new Slime();
-				loadBlockImage();
-				
+				// Set block for the ground
+				groundBlock = images.grassDirtBlock;
+				randomGround();
 				// Generate a map, skipping the first 3 columns
 				generateMap(3);
 				
 				timer = new Timer(4, new GameLoop());
 				timer.start();
 				// Start listening for key presses
-				addKeyListener(this);
-			}
-			
-			// Load image of the basic block
-			private void loadBlockImage() {
-				try {
-					blockImage = ImageIO.read(new File("images/blocks/basic.png"));
-					System.out.println("Loaded ./images/blocks/basic.png");
-				} catch (IOException e) {
-					e.printStackTrace();
-					System.exit(1);
-				}
+				//addKeyListener(this);
+				bindKeyStrokes();
+
 			}
 			
 			private void askQuestion() {
@@ -190,10 +187,13 @@ public class SlimeRun {
 					qframe.setVisible(false);
 					// Free the player from the colliding block
 					map[player.getColumn()] = GameObject.AIR;
+					// Stop movement (player had hit an object)
 					player.vel_x = 0;
 					player.vel_y = 0;
-					// Resume game
-					timer.start();
+					if (player.isDucking())
+						player.stand();
+					// Repaint to hide the destroyed block
+					repaint();
 				}
 			}
 			
@@ -208,7 +208,27 @@ public class SlimeRun {
 				if (paused) {
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
 					g.setColor(Color.blue);
-					g.drawString("PAUSED", 170, 60);
+					g.drawString("PAUSED", 40, 60);
+					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+					g.drawString("Press [P] or [ESC]", 55, 80);
+				}
+			}
+
+			// Choose random block for ground
+			private void randomGround() {
+				switch (new Random().nextInt(4)) {
+					case 0:
+						groundBlock = images.darkGrassDirtBlock;
+						break;
+					case 1:
+						groundBlock = images.grassDirtBlock;
+						break;
+					case 2:
+						groundBlock = images.stoneBlock;
+						break;
+					case 3:
+						groundBlock = images.stonePathBlock;
+						break;
 				}
 			}
 			
@@ -217,23 +237,34 @@ public class SlimeRun {
 				// Draw floor
 				for (int col = 0; col < map.length; col++) {
 					g.setColor(Color.black);
-					g.drawImage(blockImage, col*32, 3*32, 32, 32, this);
-					//g.drawRect(col*32, 3*32, 32, 32);
+					g.drawImage(groundBlock, col*64, 3*64, 64, 64, this);
+					// g.drawImage(images.caveBlock, col*64, 0, 64, 64, this);
+					//g.drawRect(col*64, 3*64, 64, 64);
 					
 					switch (map[col]) {
 						case GameObject.BUMP:
-							g.drawImage(blockImage, col*32, 2*32, 32, 32, this);	// Draw bump
+							// Draw rock
+							g.drawImage(images.rock, col*64, 2*64, 64, 64, this);
 							// Draw question mark
 							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 2*32+25);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+11*2, 2*64+30*2);
+							break;
+						case GameObject.SPIKES:
+							// Draw spikes
+							g.drawImage(images.spikes, col*64, 2*64, 64, 64, this);
+							// Draw question mark
+							g.setColor(Color.red);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+11*2, 2*64+30*2);
 							break;
 						case GameObject.OVERHANG:
-							g.drawImage(blockImage, col*32, 0, 32, 73, this);	// Draw overhang
+							// Draw overhang
+							g.drawImage(images.roots, col*64, 0, 64, 146, this);
 							// Draw question mark
 							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 1*32+35);
+							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							g.drawString("?", col*64+22, 1*64+60);
 					}
 				}
 			}
@@ -254,7 +285,10 @@ public class SlimeRun {
 					
 					double rand = Math.random();
 					if (rand > .8) {
-						map[col] = GameObject.BUMP;
+						if (Math.random() > .5)
+							map[col] = GameObject.BUMP;
+						else
+							map[col] = GameObject.SPIKES;
 						// Skip a column so the user can actually jump over a bump
 						numberToSkip = 2;
 					} else if (rand > .6) {
@@ -266,40 +300,61 @@ public class SlimeRun {
 			
 			// Pause the game
 			private void pauseGame() {
-				timer.stop();
 				paused = true;
+				repaint();
+				timer.stop();
 			}
 			
 			private void resumeGame() {
 				timer.start();
 				paused = false;
 			}
-			
-			// Update slime properties on key press
-			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_UP:
-					case KeyEvent.VK_W:
+
+			// Create and attach actions to be executed on key strokes.
+			private void bindKeyStrokes() {
+				InputMap in = getInputMap();
+				ActionMap ac = getActionMap();
+				
+				// Jump
+				in.put(KeyStroke.getKeyStroke('w'), "jump");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "jump");
+				ac.put("jump", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
 						player.jump();
-						break;
-					case KeyEvent.VK_DOWN:
-					case KeyEvent.VK_S:
+					}
+				});
+
+				// Duck
+				in.put(KeyStroke.getKeyStroke('s'), "duck");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "duck");
+				ac.put("duck", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
 						player.duck();
-						break;
-					case KeyEvent.VK_ESCAPE:
-					case KeyEvent.VK_P:
-						pauseGame();
-				}
+					}
+				});
+
+				// Stand
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "stand");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "stand");
+				ac.put("stand", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
+						player.stand();
+					}
+				});
+
+				// Pause
+				in.put(KeyStroke.getKeyStroke('p'), "pause");
+				in.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pause");
+				ac.put("pause", new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
+						if (paused)
+							resumeGame();
+						else
+							pauseGame();
+					}
+				});
 			}
-			
-			// Stop slide
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
-					player.stand();
-			}
-			
-			public void keyTyped(KeyEvent e) {};
-		
+
 			class GameLoop implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					main.repaint();
@@ -310,7 +365,8 @@ public class SlimeRun {
 					// Update map for next painting
 					player.move();
 					// If the player passed the edge of the screen
-					if (player.x >= 32*15) {
+					if (player.x >= 64*15) {
+						randomGround();	// Swap ground block
 						generateMap(3);	// Regenerate the map
 						player.x = 0; // Move to start
 					}
@@ -319,11 +375,13 @@ public class SlimeRun {
 				// Collision detection for player
 				private void detectCollision() {
 					int playerColumn = player.getColumn();
-					if (map[playerColumn] == GameObject.BUMP && player.y >= 32*2) {
+					boolean isBump = map[playerColumn] == GameObject.BUMP ||
+											map[playerColumn] == GameObject.SPIKES;
+					if (isBump && player.y >= 64*2) {
 						askQuestion();
 						System.out.println("Overlapping BUMP");
 					}
-					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 73) {
+					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 64*2+18) {
 						player.stand();
 						askQuestion();
 						System.out.println("Overlapping OVERHANG");
@@ -333,3 +391,4 @@ public class SlimeRun {
 		}
 	}
 }
+

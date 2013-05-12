@@ -11,6 +11,7 @@ import java.awt.image.ImageObserver;
 public class Slime extends GameObject {
 	public String[] frameNames;	// File paths of frames
 	public Image imageRun;
+	public Image imageDuck;
 	private boolean jumping, ducking;
 	
 	public Slime() {
@@ -26,7 +27,7 @@ public class Slime extends GameObject {
 		jumping = ducking = false;
 		x = 5;
 		y = 1;
-		w = h = 32;	// Block size of 16 px
+		w = h = 64;	// Block size of 16 px
 		max_x = 1.25;
 		
 		// Load images of the slime
@@ -37,7 +38,7 @@ public class Slime extends GameObject {
 		super.move();
 		
 		// if the slime hit the ground
-		if (y >= 32*2) {
+		if (y >= 64*2) {
 			// begin sliding (only needed for the first time he falls
 			if (accel_x != .25) accel_x = .25;
 			
@@ -49,9 +50,9 @@ public class Slime extends GameObject {
 			
 			// slime is slightly lower while ducking
 			if (ducking)
-				y = 32*2+10;
+				y = 64*2+20;
 			else
-				y = 32*2;
+				y = 64*2;
 		}
 		
 		// if the slime hit the top
@@ -59,35 +60,35 @@ public class Slime extends GameObject {
 	}
 	
 	public void duck() {
-		//if (!jumping) {
-			ducking = true;
-			h = 22;
-			w = 42;
-			y += 10;
-		//}
+		ducking = true;
+		max_x = 1;	// Slow slime
+		h = 64-20;
+		w = 64+20;
+		y += 20;
 	}
 	
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			h = w = 32;
-			y -= 10;
+			max_x = 1.25;	// Restore speed
+			h = w = 64;	// Adjust size
+			y -= 20;	// Adjust position
 		}
 	}
 	
 	public void jump() {
 		jumping = true;
-		vel_y = -2.25;
+		vel_y = -3.3;
 	}
 	
 	public int getColumn() {
-		return (int) (x/32);
+		return (int) (x/64);
 	}
 	
 	public void loadFrames() {
 		try {
-			imageRun = ImageIO.read(new File("images/green/main.png"));
-			System.out.println("Loaded ./images/green/main.png");
+			imageRun = ImageIO.read(new File("images/green/slime.png"));
+			System.out.println("Loaded ./images/green/slime.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -95,6 +96,11 @@ public class Slime extends GameObject {
 	}
 	
 	public void drawSlime(Graphics g, ImageObserver observe) {
-		g.drawImage(imageRun, (int) Math.floor(x), y, w, h, observe);
+		// if (ducking)
+			// g.drawImage(imageDuck, (int) Math.floor(x), y, w, h, observe);
+		// else
+			g.drawImage(imageRun, (int) Math.floor(x), y, w, h, observe);
 	}
+
+	public boolean isDucking() { return ducking; }
 }
