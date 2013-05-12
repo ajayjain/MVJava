@@ -11,6 +11,7 @@ import java.awt.image.ImageObserver;
 public class Slime extends GameObject {
 	public String[] frameNames;	// File paths of frames
 	public Image imageRun;
+	public Image imageDuck;
 	private boolean jumping, ducking;
 	
 	public Slime() {
@@ -59,12 +60,10 @@ public class Slime extends GameObject {
 	}
 	
 	public void duck() {
-		//if (!jumping) {
-			ducking = true;
-			h = 22;
-			w = 42;
-			y += 10;
-		//}
+		ducking = true;
+		h = 22;
+		w = 42;
+		y += 10;
 	}
 	
 	public void stand() {
@@ -86,8 +85,8 @@ public class Slime extends GameObject {
 	
 	public void loadFrames() {
 		try {
-			imageRun = ImageIO.read(new File("images/green/main.png"));
-			System.out.println("Loaded ./images/green/main.png");
+			imageRun = ImageIO.read(new File("images/green/slime.png"));
+			System.out.println("Loaded ./images/green/slime.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -95,7 +94,10 @@ public class Slime extends GameObject {
 	}
 	
 	public void drawSlime(Graphics g, ImageObserver observe) {
-		g.drawImage(imageRun, (int) Math.floor(x), y, w, h, observe);
+		// if (ducking)
+			// g.drawImage(imageDuck, (int) Math.floor(x), y, w, h, observe);
+		// else
+			g.drawImage(imageRun, (int) Math.floor(x), y, w, h, observe);
 	}
 
 	public boolean isDucking() { return ducking; }

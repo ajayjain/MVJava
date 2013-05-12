@@ -12,17 +12,25 @@ import javax.imageio.ImageIO;
 public class ImageLoader extends Thread {
 	public Image
 		rock,
+		spikes,
 		roots,
 		stoneBlock,
 		grassDirtBlock,
-		darkGrassDirtBlock;
+		darkGrassDirtBlock,
+		stonePathBlock;
+		// caveBlock,
+		// skyBlock;
 	
 	public void run() {
 		rock = loadBlock("rock");
+		spikes = loadBlock("spikes");
 		roots = loadBlock("roots");
+		stoneBlock = loadBlock("stoneBlock");
 		grassDirtBlock = loadBlock("grassDirtBlock");
 		darkGrassDirtBlock = loadBlock("darkGrassDirtBlock");
-		stoneBlock = loadBlock("stoneBlock");
+		stonePathBlock = loadBlock("stonePathBlock");
+		// caveBlock = loadBlock("caveBlock");
+		// skyBlock = loadBlock("skyBlock");
 	}
 	
 	public Image load(String fileName) {

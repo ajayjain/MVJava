@@ -11,7 +11,8 @@ public abstract class GameObject {
 	public static final int
 		AIR = 0,
 		BUMP = 1,
-		OVERHANG = 2;
+		SPIKES = 2,
+		OVERHANG = 3;
 	
 	public double x;	// x pos is fractional to allow for granular accelleration
 	public int w, h, y;	// width, height, y pos
