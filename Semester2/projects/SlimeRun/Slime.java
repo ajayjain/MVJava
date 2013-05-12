@@ -27,7 +27,7 @@ public class Slime extends GameObject {
 		jumping = ducking = false;
 		x = 5;
 		y = 1;
-		w = h = 32;	// Block size of 16 px
+		w = h = 64;	// Block size of 16 px
 		max_x = 1.25;
 		
 		// Load images of the slime
@@ -38,7 +38,7 @@ public class Slime extends GameObject {
 		super.move();
 		
 		// if the slime hit the ground
-		if (y >= 32*2) {
+		if (y >= 64*2) {
 			// begin sliding (only needed for the first time he falls
 			if (accel_x != .25) accel_x = .25;
 			
@@ -50,9 +50,9 @@ public class Slime extends GameObject {
 			
 			// slime is slightly lower while ducking
 			if (ducking)
-				y = 32*2+10;
+				y = 64*2+20;
 			else
-				y = 32*2;
+				y = 64*2;
 		}
 		
 		// if the slime hit the top
@@ -61,26 +61,26 @@ public class Slime extends GameObject {
 	
 	public void duck() {
 		ducking = true;
-		h = 22;
-		w = 42;
-		y += 10;
+		h = 64-20;
+		w = 64+20;
+		y += 20;
 	}
 	
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			h = w = 32;
-			y -= 10;
+			h = w = 64;
+			y -= 20;
 		}
 	}
 	
 	public void jump() {
 		jumping = true;
-		vel_y = -2.25;
+		vel_y = -3.1;
 	}
 	
 	public int getColumn() {
-		return (int) (x/32);
+		return (int) (x/64);
 	}
 	
 	public void loadFrames() {

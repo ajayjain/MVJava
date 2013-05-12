@@ -17,7 +17,7 @@ public abstract class GameObject {
 	public double x;	// x pos is fractional to allow for granular accelleration
 	public int w, h, y;	// width, height, y pos
 	
-	public double accel_y = .06;
+	public double accel_y = .09;
 	public double vel_y = 0;	// Stationary at start
 	public double max_y = 10;	// Terminal velocity
 	

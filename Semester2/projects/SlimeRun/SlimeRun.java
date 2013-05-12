@@ -36,7 +36,7 @@ public class SlimeRun {
 		
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(32*15+10, 32*6);
+		frame.setSize(64*15+10, 64*6);
 		frame.setLocation(200, 100);
 		frame.setResizable(false);
 		
@@ -99,7 +99,7 @@ public class SlimeRun {
 			// Add components to top panel
 			top = new JMenuBar();
 			top.setBackground(new Color(105, 204, 255, 150));
-			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 32 px
+			top.setPreferredSize(new Dimension(frame.getWidth(), 33));	// Block size 64 px
 			top.add(quit);
 			top.add(directions);
 			add(top, BorderLayout.NORTH);
@@ -128,7 +128,7 @@ public class SlimeRun {
 				// Generate a map, skipping the first 3 columns
 				generateMap(3);
 				
-				timer = new Timer(6, new GameLoop());
+				timer = new Timer(4, new GameLoop());
 				timer.start();
 				// Start listening for key presses
 				//addKeyListener(this);
@@ -237,34 +237,34 @@ public class SlimeRun {
 				// Draw floor
 				for (int col = 0; col < map.length; col++) {
 					g.setColor(Color.black);
-					g.drawImage(groundBlock, col*32, 3*32, 32, 32, this);
-					// g.drawImage(images.caveBlock, col*32, 0, 32, 32, this);
-					//g.drawRect(col*32, 3*32, 32, 32);
+					g.drawImage(groundBlock, col*64, 3*64, 64, 64, this);
+					// g.drawImage(images.caveBlock, col*64, 0, 64, 64, this);
+					//g.drawRect(col*64, 3*64, 64, 64);
 					
 					switch (map[col]) {
 						case GameObject.BUMP:
 							// Draw rock
-							g.drawImage(images.rock, col*32, 2*32, 32, 32, this);
+							g.drawImage(images.rock, col*64, 2*64, 64, 64, this);
 							// Draw question mark
 							g.setColor(Color.red);
 							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 2*32+30);
+							g.drawString("?", col*64+11, 2*64+30);
 							break;
 						case GameObject.SPIKES:
 							// Draw spikes
-							g.drawImage(images.spikes, col*32, 2*32, 32, 32, this);
+							g.drawImage(images.spikes, col*64, 2*64, 64, 64, this);
 							// Draw question mark
 							g.setColor(Color.red);
 							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 2*32+30);
+							g.drawString("?", col*64+11, 2*64+30);
 							break;
 						case GameObject.OVERHANG:
 							// Draw overhang
-							g.drawImage(images.roots, col*32, 0, 32, 73, this);
+							g.drawImage(images.roots, col*64, 0, 64, 146, this);
 							// Draw question mark
 							g.setColor(Color.red);
 							g.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-							g.drawString("?", col*32+11, 1*32+30);
+							g.drawString("?", col*64+11, 1*64+30);
 					}
 				}
 			}
@@ -365,7 +365,7 @@ public class SlimeRun {
 					// Update map for next painting
 					player.move();
 					// If the player passed the edge of the screen
-					if (player.x >= 32*15) {
+					if (player.x >= 64*15) {
 						randomGround();	// Swap ground block
 						generateMap(3);	// Regenerate the map
 						player.x = 0; // Move to start
@@ -377,11 +377,11 @@ public class SlimeRun {
 					int playerColumn = player.getColumn();
 					boolean isBump = map[playerColumn] == GameObject.BUMP ||
 											map[playerColumn] == GameObject.SPIKES;
-					if (isBump && player.y >= 32*2) {
+					if (isBump && player.y >= 64*2) {
 						askQuestion();
 						System.out.println("Overlapping BUMP");
 					}
-					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 73) {
+					if (map[playerColumn] == GameObject.OVERHANG && player.y <= 64*2+18) {
 						player.stand();
 						askQuestion();
 						System.out.println("Overlapping OVERHANG");
