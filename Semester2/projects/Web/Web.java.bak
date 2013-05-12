@@ -1,0 +1,113 @@
+// Ajay Jain
+// February 4, 2013 
+// Web.java
+// This class uses MouseEvents to control the actions in the JPanel of a JFrame to display a web of vertices.
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class Web {
+
+	JFrame frame;			// JFrame and JPanel must be global object instances
+	ButtonPanel bpanel;
+	CanvasPanel cpanel;
+	
+	public static void main(String[] args) {
+		Web web = new Web();
+		web.Run();
+	}
+
+	public void Run() {
+		frame = new JFrame("Web");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setResizable(false);
+		
+		// Create ButtonPanel and add to frame
+		bpanel = new ButtonPanel();
+		frame.getContentPane().add(bpanel, BorderLayout.NORTH);		// add button panel to frame
+		
+		cpanel = new CanvasPanel();
+		frame.getContentPane().add(cpanel, BorderLayout.CENTER);	// add canvas to frame
+		
+		frame.addMouseListener(bpanel);
+		frame.setSize(600, 700);		// explicitly set size in pixels
+		frame.setVisible(true);		// set to false to make invisible
+		
+	}
+
+}	// end class SimpleJFrame2
+
+// JPanel of 5 buttons
+class ButtonPanel extends JPanel implements MouseListener {
+	private int width, height;
+	
+	public ButtonPanel() {}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);	// execute the superclass method first
+		width = getWidth();			// width of JPanel
+		height = getHeight();		// height of JPanel
+		
+		// Set background color and size
+		setBackground(Color.white);
+		setSize(width, 100);
+		
+		// Draw rectangles
+		g.setColor(Color.blue);
+		int w = width/5;
+		g.fillRect(2, 2, w-2, 96);
+		g.fillRect(w+2, 2, w-2, 96);
+		g.fillRect(2*w+2, 2, w-2, 96);
+		g.fillRect(3*w+2, 2, w-2, 96);
+		g.fillRect(4*w+2, 2, w-2, 96);
+		
+		// Write text
+		g.setColor(Color.red);
+		int off = w/2-10; // offset of text from left of button
+		g.setFont(g.getFont().deriveFont(40f));
+		g.drawString("4", off, 65);
+		g.drawString("8", off+w, 65);
+		g.drawString("12", off+2*w-10, 65);
+		g.drawString("16", off+3*w-10, 65);
+		g.drawString("20", off+4*w-10, 65);
+		
+	}	// end paintComponent
+	
+	
+	public void mousePressed(MouseEvent e) {
+		// Coords of click
+		int x = e.getX(),
+			y = e.getY();
+			
+		if (y <= 125) {
+			int vert = 4*((x-8)/(width/5)+1);
+			System.out.printf("mousePressed x = %d y = %d vertices = %d\n", x, y, vert);
+			repaint();		// Calls paintComponent
+		}
+	}
+	
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+}	// end class ButtonPanel
+
+// Canvas for drawing web
+class CanvasPanel extends JPanel {
+	private int width, height;
+	
+	public CanvasPanel() {}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		width = getWidth();
+		height = getHeight();
+		
+		//setSize(width, 500);
+		setBackground(Color.black);
+	}
+}

@@ -1,0 +1,199 @@
+a.c. generator::::a device, such as a dynamo, used to generate alternating current (a.c.)
+acceleration::::(physics) a rate of change of an object's velocity
+acceleration due to gravity::::the acceleration of an object falling freely under gravity
+acceleration of free fall::::the acceleration of an object falling freely under gravity
+activity (nuclear)::::the rate at which nuclei decay in a sample of a radioactive substance
+air resistance::::the friction force on an object moving through the air
+Alpha decay::::the decay of a radioactive nucleus by the emission of an alpha particle
+alpha particle::::a particle of two protons and two neutrons emitted by an atomic nucleus during radioactive decay
+alternating current (a.c.)::::electric current that flows first one way and then the other in a circuit
+ammeter::::a meter for measuring electric current
+amp, ampere (A)::::the SI unit of electric current
+amplitude::::the greatest height of a wave above its undisturbed level
+angle of incidence::::the angle between an incident ray and the normal to the surface at the point where it meets a surface
+angle of reflection::::the angle between a reflected ray and normal to the at the point where it reflects from a surface
+angle of refraction::::the angle between a refracted ray and the normal to the surface at the point where it passes from material to another
+average speed::::speed calculated from total distance travelled divided by total time taken
+axis::::the line passing through the centre of a lens, perpendicular to the surface
+background radiation::::the radiation from the environment to which we are exposed all the time
+barometer::::an instrument used to measure atmospheric pressure
+battery::::two or more electrical cells connected together in series (the word may also be used to mean a single cell)
+becquerel (Bq)::::the SI unit of activity per second
+1 Bq::::1 decay per second
+beta decay::::the decay of a radioactive nucleus by emission of a beta particle
+beta particle::::a particle (an electron) emitted by an atomic nucleus during radioactive decay
+biomass fuel::::a material, recently living, used as a fuel
+boiling point::::the temperature at which a liquid changes to a gas (at constant pressure)
+Boyle's law::::the law that relates the pressure and volume of a fixed mass of gas
+Boyle's law equation::::pV = constant at constant temperature
+Brownian motion::::...
+magnet::::(physics) a device that attracts iron and produces a magnetic field
+magnetic field::::the lines of force surrounding a permanent magnet or a moving charged particle
+electromagnet::::a temporary magnet made by coiling wire around an iron core
+current::::a flow of electricity through a conductor
+transformer::::an electrical device by which alternating current of one voltage is changed to another voltage
+induction::::(physics) a property of an electric circuit by which an electromotive force is induced in it by a variation of current
+insulator::::a material such as glass or porcelain with negligible electrical or thermal conductivity
+voltage::::the rate at which energy is drawn from a source that produces a flow of electricity in a circuit
+ampere::::the basic unit of electric current adopted under the Systeme International d'Unites
+coulomb::::a unit of electrical charge equal to the amount of charge transferred by a current of 1 ampere in 1 second
+conduction::::transfer of energy that occurs when molecules bump into each other
+resistance::::an electrical device that resists the flow of electrical current
+Ohm's Law::::States that the direct current flowing in an electric circuit is directly proportional to the voltage applied to the circuit.
+series circuit::::circuit in which electric current follows only one path
+parallel circuit::::a closed circuit in which the current divides into two or more paths before recombining to complete the circuit
+dipole::::a pair of equal and opposite electric charges or magnetic poles separated by a small distance
+short circuit::::a connection that allows current to take an unintended path
+open circuit::::an incomplete electrical circuit in which no current flows
+ammeter::::a meter that measures the flow of electrical current in amperes
+voltmeter::::meter that measures the potential difference between two points
+power::::(physics) the rate of doing work
+schematic diagram::::a graphical representation of a circuit that uses lines to represent wires and different symbols to represent components
+electric field::::a field of force surrounding a charged particle
+electric charge::::charge obtained by an object when it gains or loses electrons
+battery::::a device that produces electricity
+ohm::::a unit of electrical resistance equal to the resistance between two points on a conductor when a potential difference of one volt between them produces a current of one ampere
+magnetic field::::the lines of force surrounding a permanent magnet or a moving charged particle
+solenoid::::a coil of wire around an iron core
+generator::::a machine that changes mechanical energy into electrical energy
+vector quantities?::::is any quantity with magnitude and direction
+scalar quantities?::::is any quantity with only magnitude
+SI units?::::refers to standard international units. An international systems of units for measurement in physical quantities
+fundamental units?::::a set of units for physical quantities from which other units can be generated
+derived units?::::a set of units for physical quantities that have been generated using the combination of fundamental quantities
+displacement::::a vector quantity that describes an object's change in distance due to motion
+velocity::::a vector quantity that describes an object's change in displacement over time.
+acceleration::::a vector quantity that describes an objects change in velocity with direction over time
+force::::a vector quantity that describes an influence that changes an objects motion and or direction
+momentum::::a vector quantity that describes the product of an object's mass and velocity
+speed::::is a scalar quantity that describes an objects change in distance over time
+The gradient of a displacement-time graph gives?::::velocity of the object
+relative velocity?::::the velocity of one object compared to or relative to velocity of another object
+The gradient of a velocity-time graph gives?::::the acceleration of the object
+The area under the velocity-time curve gives?::::displacement
+Freefall?::::is where the only force acting on a falling object is gravity
+Terminal velocity::::is where the downward force and the upward thrust acting on a falling object are the same and the object falls at constant velocity
+projectile motion::::the motion of any object acted upon by gravity only
+properties of projectile motion::::its vertical motion is at constant acceleration and its horizontal motion is at velocity
+objects moving at constant velocity?::::either has no forces acting on it or the forces balance out.
+resultant force?::::the combined effect of several forces acting on one object
+mass::::a measure of the amount of matter of an object
+inertia::::is an objects resistance to change in velocity
+newton's universal gravitational law::::states that every mass in this universe attracts to each other with a force that is directly proportional to the product of their masses and inversely proportional to the squares of the distance between them.
+newton's 1st law of motion::::every object continues at rest or with uniform motion unless acted upon by an unbalanced force/resultant force.
+newton's 2nd law of motion::::the rate of change of momentum is proportional to the resultant force that acts upon the object F=Ma
+newton's 3rd law of motion::::when two objects interact they exert equal and opposite forces on one another. for every action there is an equal and opposite reaction
+weight::::the force of gravity acting upon an objects mass
+The principle of conservation of momentum::::states that for a system of interacting objects, the total momentum remains the same unless acted upon by an external unbalanced force.
+work::::is when a force moves its point of application along its line of action.
+work done::::is equal to force multiplied by distance moved.
+energy::::is the ability/capacity to do work
+Kinetic Energy::::is Energy due to motion
+Potential Energy::::is Energy due to position
+A perfectly elastic collision::::is one where the objects return to the exact initial position after impact. the kinetic energy after impact is the same as after impact
+a partially elastic collision::::is one where there is some loss or transfer of energy due to impact
+an inelastic collision::::is one where colliding objects do not move apart after impact.
+power::::is the rate of doing work. work done for every second
+efficiency::::is the work done per energy used
+angular velocity::::is how much angles of displacement covered in a given time
+Uniform circular motion::::is when an object rotates at constant velocity with a constant radius
+frequency of circular motion::::number of rotations per second made by the object.
+Pressure::::refers to force per surface area
+pascal::::unit of measurement of pressure. a force of 1 newton acting normally over an area of 1 meter square
+worded equation for acceleration::::acceleration = (final velocity - initial velocity)/time
+worded equation for final velocity::::final velocity = initial velocity + acceleration*time
+worded equation for displacement::::displacement = initial velocity*time + 1/2 acceleration*time squared
+worded equation for displacement without acceleration::::displacement = [(initial velocity + final velocity)/2] * time
+worded equation for final velocity with given displacement::::final velocity squared = initial velocity squared + 2 * acceleration * displacement
+worded equation for displacement as it relates to projectile motion {vertical}::::displacement = {initial velocity * sine of given angle} + 1/2*gravity*time squared
+worded equation for displacement as it relates to projectile motion {horizontal}::::displacement = {initial velocity * cosine of given angle}
+worded equation for velocity as it relates to projectile motion {vertical}::::velocity = {initial velocity*sine of given angle}+gravity*time
+worded equation for velocity as it relates to projectile motion {horizontal}::::velocity = {intial velocity*cosine of given angle}
+worded equation for force::::force = mass*acceleration
+worded equation for momentum::::momentum = mass*velocity
+worded equation for change in momentum::::change in momentum = final momentum - initial momentum
+worded equation for impulse::::impulse = force*time
+worded equation for work done::::work done = force*displacement
+worded equation for energy::::energy = force*displacement
+Law for the conservation of energy::::this states that energy cannot be created or destroyed but only changed from one form to another
+worded equation for kinetic energy::::kinetic energy = 1/2*mass*velocity squared
+worded equation for potential energy::::potential energy = mass*gravity*height
+worded equation for power::::power = work done/time
+worded equation for efficiency::::efficiency = work done/energy used
+moment of a force::::is the product of a force and the perpendicular distance from the pivot to the line of action
+principle of moments::::states that for any body in equilibrium the sum of clockwise moments about a pivot must equal the sum of anti clockwise moments
+torque::::the moment of a turning force used to turn an object about an axis
+couple::::a pair of equal and opposite forces acting on a body along parallel lines of action.
+torque/moment of a couple::::is the product of the force and the shortest distance between their lines of action
+worded equation for work done by torque::::work done = torque*angle turned
+center of gravity::::is the point on an object where its weight is considered to act most/greatest
+friction::::occurs whenever two surfaces move or try to move relative to each other
+conditions for equilibrium::::the resultant force must be zero. the principle of moments must be satisfied
+worded equation for arc length::::arc length = radius *size of angle
+worded equation for frequency (circular motion)::::frequency = 1/time
+worded equation for velocity (circular motion at uniform velocity)::::velocity = (2*pi*radius)/time
+worded equation for angular velocity::::angular velocity = (2*pi)/time
+worded equation for angular velocity (frequency)::::angular velocity = 2*pi*frequency
+worded equation for velocity (uniform velocity with given angular velocity)::::velocity = radius*angular velocity
+worded equation for angular acceleration::::acceleration = angular velocity squared * radius
+worded equation for angular acceleration (with given uniform velocity)::::acceleration = velocity squared/radius
+worded equation for angular force::::angular force = mass*angular velocity squared*radius
+worded equation for angular force (with given uniformed velocity)::::angular force = (mass*velocity squared)/radius
+worded equation for pressure::::pressure = force/area
+worded equation for hydrostatic pressure::::pressure = density of liquid*gravity*height
+density::::is a measure of an objects mass per unit volume
+worded equation for density::::density = mass/volume
+what is a fluid::::fluids are substances which can flow or take the shape of its container
+types of fluids::::liquid and gas
+properties of gas::::compressible, its total volume/density can change
+properties of liquid::::non-compressible , its total volume/density cannot change
+Archimedes principle::::states that a body partially or wholly immersed in water experiences an upthrust from the fluid equal to the weight of the water displaced
+upthrust / upthrust force::::the force an object receives while wholly or partially immersed in a liquid
+worded equation for upthrust (partially immersed)::::upthrust force = density*gravity*volume
+worded equation for upthrust (fully immersed)::::upthrust force = (tension + weight)
+worded equation for weight of object immersed in water::::weight = density of object * volume of object * gravity
+hydraulics (work done)::::work done by the effort (force*distance) is equal to work done on the load (force*distance)
+worded equation for hydraulics (force)::::force output = (force input*area 2)/area1
+conditions for simple harmonic motion::::Its displacement changes sinusoidally with time.Its amplitude is constant for each complete oscillation.Its acceleration is always directed towards the equilibrium position.
+Amplitude of oscillations::::is the maximum displacement from the equilibrium position
+worded equation for angular velocity (simple harmonic motion)::::angular velocity = (2*pi)/time
+worded equation for frequency (simple harmonic motion)::::frequency = 1/time
+worded equation for velocity (simple harmonic motion)::::velocity squared = angular velocity squared * (radius squared - displacement squared)
+worded equation for displacement (simple harmonic motion)::::displacement = radius * (cosine of angular velocity*time)
+velocity of an object undergoing simple harmonic motion (graph)::::is given using the gradient of the displacement - time graph
+acceleration of an object undergoing simple harmonic motion (graph)::::is given using the gradient of the velocity - time graph
+worded equation for acceleration (simple harmonic motion)::::acceleration = negative angular velocity squared * displacement
+worded equation for force (simple harmonic motion)::::force =negative mass of object * angular velocity squared*displacement
+Hooke's law::::states that for every spiral spring, the tension is proportional to the extension of the spring
+worded equation for Hooke's law (tension)::::tension = spring constant * extension of the spring
+worded equation for force (loaded spring)::::force = negative spring constant * displacement
+worded equation for acceleration (loaded spring)::::acceleration = negative spring constant/mass *displacement
+worded equation for acceleration with given angular velocity (loaded spring)::::acceleration = negative angular velocity squared * displacement
+angular velocity squared (loaded spring)::::is equal to the spring constant/mass
+worded equation for time period (loaded spring)::::time= 2*pi/angular velocity
+worded equation for time period with given spring constant (loaded spring)::::time = 2*pi* square root of mass/spring constant
+10 degree rule (simple pendulum)::::provided that the angle of extension does not exceed 10 degrees then sine angle is equal to the displacement divided by the length of the string
+worded equation for acceleration (simple pendulum)::::acceleration = gravity/length of string *displacement
+worded equation for time period (simple pendulum)::::time = 2*pi*square root of length of string/gravity
+worded equation for kinetic energy (Simple harmonic motion)::::kinetic energy =1/2 mass * angular velocity squared *(radius squared - displacement squared)
+worded equation for kinetic energy with spring constant (simple harmonic motion)::::kinetic energy = 1/2 spring constant *(radius squared - displacement squared)
+worded equation for potential energy (simple harmonic motion)::::potential energy = 1/2 spring constant *displacement
+damping (simple harmonic motion)::::is when an external force is applied to an oscillating system making its amplitude smaller and smaller at each oscillation
+critical damping::::when a system(oscillating) returns to equilibrium in the shortest possible time after being displaced and released.
+Resonance::::when an external periodic force is applied to an oscillating system and increases its amplitude. The force frequency is always equal to the natural frequency
+what is a wave::::a wave is a disturbance or oscillation that travels usually with a transfer of energy
+wave motion::::transfer of energy from one point to another with little or no displacement of the medium/particles of the medium
+Types of waves::::Transverse waves and longitudinal waves
+Transverse waves::::in these waves, the disturbances are at right angles to the wave direction (up and down)
+Longitudinal waves::::in these waves, the disturbances are parallel to the line of the wave direction (side to side)
+displacement (properties of waves)::::the change in distance of the wave formation from one point to another with direction
+amplitude (properties of waves)::::is the measurement of the peak of the wave from its equilibrium
+period (properties of waves)::::the time taken by a wave to move a distance equal to its wavelength
+wavelength (properties of waves)::::the distance between two corresponding crests or troughs in phase on a wave, it is inversely proportional to wave frequency
+frequency (properties of waves)::::the number of wave formations passing a given point per unit of time
+velocity (properties of waves)::::the distance travelled by the wave relative to the time taken
+polarization (properties of waves)::::the process by which waves are/can be restricted to certain directions of vibrations
+Phases (properties of waves)::::two particles of a wave are considered in phase when the oscillate or vibrate together, they are at a crest at the same time/ at a trough at the same time
+The phase difference (properties of waves)::::is the fraction of a cycle by which one particle of a wave moves behind another
+worded equation for velocity (properties of a wave)::::velocity = wavelength/time or velocity = wavelength * frequency
+wave intensity::::the amount of energy transferred by a wave in its direction of flow. The energy flow per second
