@@ -28,7 +28,7 @@ public class Slime extends GameObject {
 		x = 5;
 		y = 1;
 		w = h = 64;	// Block size of 16 px
-		max_x = 1.25;
+		max_x = 2;
 		
 		// Load images of the slime
 		loadFrames();
@@ -61,7 +61,7 @@ public class Slime extends GameObject {
 	
 	public void duck() {
 		ducking = true;
-		max_x = 1;	// Slow slime
+		max_x = 1.5;	// Slow slime
 		h = 64-20;
 		w = 64+20;
 		y += 20;
@@ -70,7 +70,7 @@ public class Slime extends GameObject {
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			max_x = 1.25;	// Restore speed
+			max_x = 2;	// Restore speed
 			h = w = 64;	// Adjust size
 			y -= 20;	// Adjust position
 		}

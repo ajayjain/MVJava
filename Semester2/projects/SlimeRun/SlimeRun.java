@@ -36,7 +36,7 @@ public class SlimeRun {
 		
 		frame = new JFrame("Slime Run");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(64*15+10, 64*6);
+		frame.setSize(64*15+10, 64*5);
 		frame.setLocation(100, 100);
 		frame.setResizable(false);
 		
@@ -365,7 +365,7 @@ public class SlimeRun {
 					// Update map for next painting
 					player.move();
 					// If the player passed the edge of the screen
-					if (player.x >= 64*15) {
+					if (player.x >= 64*14) {
 						randomGround();	// Swap ground block
 						generateMap(3);	// Regenerate the map
 						player.x = 0; // Move to start
