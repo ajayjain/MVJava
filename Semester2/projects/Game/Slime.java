@@ -82,7 +82,7 @@ public class Slime extends GameObject {
 	}
 	
 	public int getColumn() {
-		return (int) (x/64);
+		return (int) (x/64)+1;
 	}
 	
 	public void loadFrames() {
