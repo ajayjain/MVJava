@@ -71,3 +71,9 @@ public class StartScreen extends JPanel {
 		});*/
 	}
 }
+
+class FlashCardPanel extends JPanel {
+	public FlashCardPanel() {
+		
+	}
+}

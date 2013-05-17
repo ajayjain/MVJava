@@ -69,6 +69,20 @@ class SlimeRun {
 		private JButton quit, resume;
 		private JLabel directions;
 		
+		private ActionListener quitListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Hide panels
+				gamePanel.setVisible(false);
+				qframe.setVisible(false);
+				startPanel.setVisible(true);
+				// Stop and destroy the game
+				main.timer.stop();
+				main.player = null;
+				main = null;
+				gamePanel = null;
+			}
+		};
+		
 		public GamePanel() {
 			setLayout(new BorderLayout());
 			createTopBar();
@@ -80,19 +94,7 @@ class SlimeRun {
 		public void createTopBar() {
 			// Button to go to main screen
 			quit = new JButton("Quit");
-			quit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// Hide panels
-					gamePanel.setVisible(false);
-					qframe.setVisible(false);
-					startPanel.setVisible(true);
-					// Stop and destroy the game
-					main.timer.stop();
-					main.player = null;
-					main = null;
-					gamePanel = null;
-				}
-			});
+			quit.addActionListener(quitListener);
 			
 			// Game instructions
 			directions = new JLabel("    [W]/[SPACE]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
@@ -175,8 +177,49 @@ class SlimeRun {
 			}
 			
 			class IncorrectListener implements ActionListener {
+				private JFrame inframe;
+				private JSplitPane question;
+				private JTextArea qArea, aArea; // text areas for the question and answer
+				private JButton save;
+				private JLabel incorr;
+				
+				public IncorrectListener() {
+					inframe = new JFrame();
+					inframe.setTitle("GAME OVER");
+					inframe.setSize(300, 200);
+					inframe.setLocation(200, 480);
+					
+					// Top Label
+					incorr = new JLabel("INCORRECT - Physics");
+					incorr.setForeground(Color.red);
+					inframe.getContentPane().add(incorr, BorderLayout.NORTH);
+					
+					// Question and answer boxes
+					qArea = new JTextArea("question");
+					qArea.setEditable(false);
+					qArea.setForeground(Color.blue);
+					aArea = new JTextArea("answer");
+					aArea.setEditable(false);
+					aArea.setForeground(Color.blue);
+					
+					// Add to split pane and frame
+					question = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, qArea, aArea);
+					inframe.getContentPane().add(question, BorderLayout.CENTER);
+					
+					// Save button at the bottom
+					save = new JButton("Quit & Save");
+					save.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							inframe.setVisible(false);
+							quitListener.actionPerformed(e);
+						}
+					});
+					inframe.getContentPane().add(save, BorderLayout.SOUTH);
+				}
+				
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("INCORRECT");
+					inframe.setVisible(true);
 				}
 			}
 			
