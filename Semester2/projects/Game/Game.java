@@ -90,6 +90,11 @@ class SlimeRun {
 			main = new MainPanel();
 			add(main, BorderLayout.CENTER);
 		}
+
+		// public void paintComponent(Graphics g) {
+		// 	// Draw the background
+		// 	g.drawImage(background, 0, 30, 64*16, 64*4, null);
+		// }
 		
 		public void createTopBar() {
 			// Button to go to main screen
@@ -113,21 +118,27 @@ class SlimeRun {
 		class MainPanel extends JPanel		 {
 			private byte[] map = new byte[15];
 			
-			Slime player;	// The player
-			private Image groundBlock = images.grassDirtBlock;
-			Timer timer;	// 4 milisecond game loop
-			private int w = getWidth(), h = getHeight();
+			private Image groundBlock;
+			private Image background;
+			private int w, h;
 			private boolean paused = false;
+			Slime player;	// The player
+			Timer timer;	// 4 milisecond game loop
 			
 			public MainPanel() {
 				super();
-				
-				setBackground(Color.pink);
+
+				w = getWidth();
+				h = getHeight();
 				
 				player = new Slime();
+
 				// Set block for the ground
-				groundBlock = images.grassDirtBlock;
 				randomGround();
+
+				// Select a background
+				randomBack();
+				
 				// Generate a map, skipping the first 4 columns
 				generateMap(4);
 				
@@ -138,6 +149,124 @@ class SlimeRun {
 				bindKeyStrokes();
 			}
 			
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+
+				// Draw background
+				g.drawImage(background, 0, 0, 64*16, 64*4, null);
+				// Draw slime character
+				player.drawSlime(g, this);
+				// Draw map
+				drawMap(g);
+				
+				if (paused) {
+					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+					g.setColor(Color.blue);
+					g.drawString("PAUSED", 40, 60);
+					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
+					g.drawString("Press [P] or [ESC]", 55, 80);
+				}
+			}
+
+			// Choose random block for ground
+			private void randomGround() {
+				switch (new Random().nextInt(4)) {
+					case 0:
+						groundBlock = images.darkGrassDirtBlock;
+						break;
+					case 1:
+						groundBlock = images.grassDirtBlock;
+						break;
+					case 2:
+						groundBlock = images.stoneBlock;
+						break;
+					case 3:
+						groundBlock = images.stonePathBlock;
+						break;
+				}
+			}
+
+			// Choose random background  image
+			private void randomBack() {
+				switch (new Random().nextInt(3)) {
+					case 0:
+						background = images.swampBackground;
+						break;
+					case 1:
+						background = images.desertBackground;
+						break;
+					case 2:
+						background = images.starBackground;
+						break;
+				}
+			}
+			
+			// Draws blocks
+			private void drawMap(Graphics g) {
+				// Draw floor
+				for (int col = 0; col < map.length; col++) {
+					g.setColor(Color.black);
+					g.drawImage(groundBlock, col*64, 3*64, 64, 64, null);
+					// g.drawImage(images.caveBlock, col*64, 0, 64, 64, this);
+					//g.drawRect(col*64, 3*64, 64, 64);
+					
+					switch (map[col]) {
+						case GameObject.BUMP:
+							// Draw rock
+							g.drawImage(images.rock, col*64, 2*64, 64, 64, null);
+							// Draw question mark
+							// g.setColor(Color.red);
+							// g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							// g.drawString("?", col*64+11*2, 2*64+30*2);
+							break;
+						case GameObject.SPIKES:
+							// Draw spikes
+							g.drawImage(images.spikes, col*64, 2*64, 64, 64, null);
+							// Draw question mark
+							// g.setColor(Color.red);
+							// g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							// g.drawString("?", col*64+11*2, 2*64+30*2);
+							break;
+						case GameObject.OVERHANG:
+							// Draw overhang
+							g.drawImage(images.roots, col*64, 0, 64, 146, null);
+							// Draw question mark
+							// g.setColor(Color.red);
+							// g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
+							// g.drawString("?", col*64+22, 1*64+60);
+					}
+				}
+			}
+			
+			// Generate map for one screen.
+			// numberToSkip - Columns to skip
+			private void generateMap(int numberToSkip) {
+				// Clear map
+				for (int col = 0; col < map.length; col++)
+					map[col] = GameObject.AIR;
+				
+				for (int col = 0; col < map.length; col++) {
+					// Skip the first startCol columns
+					if (numberToSkip > 0) {
+						numberToSkip--;
+						continue;
+					}
+					
+					double rand = Math.random();
+					if (rand > .8) {
+						if (Math.random() > .5)
+							map[col] = GameObject.BUMP;
+						else
+							map[col] = GameObject.SPIKES;
+						// Skip a column so the user can actually jump over a bump
+						numberToSkip = 2;
+					} else if (rand > .6) {
+						map[col] = GameObject.OVERHANG;
+						numberToSkip = 2;
+					}
+				}
+			}
+
 			private void askQuestion() {
 				pauseGame();
 				
@@ -240,107 +369,6 @@ class SlimeRun {
 				}
 			}
 			
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				
-				// Draw slime character
-				player.drawSlime(g, this);
-				// Draw map
-				drawMap(g);
-				
-				if (paused) {
-					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
-					g.setColor(Color.blue);
-					g.drawString("PAUSED", 40, 60);
-					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-					g.drawString("Press [P] or [ESC]", 55, 80);
-				}
-			}
-
-			// Choose random block for ground
-			private void randomGround() {
-				switch (new Random().nextInt(4)) {
-					case 0:
-						groundBlock = images.darkGrassDirtBlock;
-						break;
-					case 1:
-						groundBlock = images.grassDirtBlock;
-						break;
-					case 2:
-						groundBlock = images.stoneBlock;
-						break;
-					case 3:
-						groundBlock = images.stonePathBlock;
-						break;
-				}
-			}
-			
-			// Draws blocks
-			private void drawMap(Graphics g) {
-				// Draw floor
-				for (int col = 0; col < map.length; col++) {
-					g.setColor(Color.black);
-					g.drawImage(groundBlock, col*64, 3*64, 64, 64, this);
-					// g.drawImage(images.caveBlock, col*64, 0, 64, 64, this);
-					//g.drawRect(col*64, 3*64, 64, 64);
-					
-					switch (map[col]) {
-						case GameObject.BUMP:
-							// Draw rock
-							g.drawImage(images.rock, col*64, 2*64, 64, 64, this);
-							// Draw question mark
-							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
-							g.drawString("?", col*64+11*2, 2*64+30*2);
-							break;
-						case GameObject.SPIKES:
-							// Draw spikes
-							g.drawImage(images.spikes, col*64, 2*64, 64, 64, this);
-							// Draw question mark
-							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
-							g.drawString("?", col*64+11*2, 2*64+30*2);
-							break;
-						case GameObject.OVERHANG:
-							// Draw overhang
-							g.drawImage(images.roots, col*64, 0, 64, 146, this);
-							// Draw question mark
-							g.setColor(Color.red);
-							g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
-							g.drawString("?", col*64+22, 1*64+60);
-					}
-				}
-			}
-			
-			// Generate map for one screen.
-			// numberToSkip - Columns to skip
-			private void generateMap(int numberToSkip) {
-				// Clear map
-				for (int col = 0; col < map.length; col++)
-					map[col] = GameObject.AIR;
-				
-				for (int col = 0; col < map.length; col++) {
-					// Skip the first startCol columns
-					if (numberToSkip > 0) {
-						numberToSkip--;
-						continue;
-					}
-					
-					double rand = Math.random();
-					if (rand > .8) {
-						if (Math.random() > .5)
-							map[col] = GameObject.BUMP;
-						else
-							map[col] = GameObject.SPIKES;
-						// Skip a column so the user can actually jump over a bump
-						numberToSkip = 2;
-					} else if (rand > .6) {
-						map[col] = GameObject.OVERHANG;
-						numberToSkip = 2;
-					}
-				}
-			}
-			
 			// Pause the game
 			private void pauseGame() {
 				paused = true;
@@ -412,6 +440,7 @@ class SlimeRun {
 					// If the player passed the edge of the screen
 					if (player.x >= 64*14) {
 						randomGround();	// Swap ground block
+						randomBack();	// Swap background image
 						generateMap(3);	// Regenerate the map
 						player.x = 0; // Move to start
 					}
