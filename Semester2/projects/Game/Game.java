@@ -73,7 +73,8 @@ class SlimeRun {
 			public void actionPerformed(ActionEvent e) {
 				// Hide panels
 				gamePanel.setVisible(false);
-				qframe.setVisible(false);
+				if (qframe != null)
+					qframe.setVisible(false);
 				startPanel.setVisible(true);
 				// Stop and destroy the game
 				main.timer.stop();
@@ -153,7 +154,7 @@ class SlimeRun {
 				super.paintComponent(g);
 
 				// Draw background
-				g.drawImage(background, 0, 0, 64*16, 64*4, null);
+				// g.drawImage(background, 0, 0, 64*16, 64*4, null);
 				// Draw slime character
 				player.drawSlime(g, this);
 				// Draw map
@@ -278,25 +279,43 @@ class SlimeRun {
 				IncorrectListener il = new IncorrectListener();
 				CorrectListener cl = new CorrectListener();
 				
-				if (startPanel.subjects[0].isSelected())
-					askPhysicsQuestion(il, cl);
+				// Default: Electricity and Magnetism
+				String[][] subject = questions.em;
+				
+				if (startPanel.subjects[1].isSelected())
+					subject = questions.machines;
+				else if (startPanel.subjects[2].isSelected())
+					subject = questions.anatomy;
+				else if (startPanel.subjects[3].isSelected())
+					subject = questions.vocab;
+				else if (startPanel.subjects[4].isSelected())
+					subject = questions.spanish;
+				
+				assembleQuestionFrame(subject, il, cl);
 			}
 			
-			private void askPhysicsQuestion(ActionListener il, ActionListener cl) {
+			private void assembleQuestionFrame(String[][] subject, ActionListener il, ActionListener cl) {
 				Random rand = new Random();
-				int randIndex = rand.nextInt(questions.physics.length);
-				String[] question = questions.physics[randIndex];
+				int randIndex = rand.nextInt(subject.length);
+				String[] question = subject[randIndex];
+				System.out.println(randIndex+" of "+subject.length);
+				System.out.println("subject[randIndex] length "+subject[randIndex);
+				System.out.println(java.util.Arrays.toString(question));
 				
 				// Init JButton array for each choice
 				JButton[] choices = new JButton[4];
 				// Randomly place the button for the correct choice in the choices array
 				int correctIndex = rand.nextInt(4);
-				choices[correctIndex] = new JButton(question[1]);
+				System.out.println(choices.length);
+				System.out.println(question.length);
+				System.out.println(subject.length);
+				choices[correctIndex] =
+					new JButton(question[1]);
 				choices[correctIndex].addActionListener(cl);	// Add listener that is called on selection of the correct choice
 				for (int i = 0; i < 4; i++) {
 					if (i == correctIndex) continue;	// Skip the correct choice (already placed)
-					randIndex = rand.nextInt(questions.physics.length);	// Choose a random index
-					String choice = questions.physics[randIndex][0];	// Text of answer choice from the data set
+					randIndex = rand.nextInt(subject.length);	// Choose a random index
+					String choice = subject[randIndex][0];	// Text of answer choice from the data set
 					choices[i] = new JButton(choice);
 					choices[i].addActionListener(il);	// Incorrect answer
 				}
@@ -461,7 +480,7 @@ class SlimeRun {
 					}
 					if (map[playerColumn] == GameObject.OVERHANG /*&& player.x - playerColumn*64 > 3*/ && player.y <= 64*2+18) {
 						player.stand();
-						if (overlapCycles > 5) {
+						if (overlapCycles > 3) {
 							askQuestion();
 							overlapCycles = 0;
 						} else

@@ -8,11 +8,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class QuestionLoader extends Thread {
-	public String[][] physics;
+	public String[][] em, machines, anatomy, vocab, spanish;
 	
 	public void run() {
-		physics = new String[199][0];
-		load("data/physics.txt", physics);
+		// Initialize arrays
+		//physics = new String[199][0];
+		em = new String[54][0];
+		machines = new String[25][0];
+		anatomy = new String[61][0];
+		vocab = new String[156][0];
+		spanish = new String[1241][0];
+		
+		//load("data/physics.txt", physics);
+		load("data/em.txt", em);
+		load("data/simplemachines.txt", machines);
+		load("data/anatomy.txt", anatomy);
+		load("data/sat.txt", vocab);
+		load("data/spanish.txt", spanish);
 	}
 	
 	private void load(String fileName, String[][] questions) {
@@ -21,6 +33,7 @@ public class QuestionLoader extends Thread {
 			for (int q = 0; q < questions.length; q++)
 				if (s.hasNext())
 					questions[q] = s.nextLine().split("::::");
+			System.out.println("Loaded "+fileName);
 		} catch (FileNotFoundException e) {
 			System.err.println("ERROR: File not found - "+fileName);
 		}

@@ -32,9 +32,9 @@ public class ImageLoader extends Thread {
 		darkGrassDirtBlock = loadBlock("darkGrassDirtBlock");
 		stonePathBlock = loadBlock("stonePathBlock");
 		
-		starBackground = loadBackground("stars");
-		swampBackground = loadBackground("swamp");
-		desertBackground = loadBackground("desert");
+		// starBackground = loadBackground("stars");
+		// swampBackground = loadBackground("swamp");
+		// desertBackground = loadBackground("desert");
 	}
 	
 	public Image load(String fileName) {
