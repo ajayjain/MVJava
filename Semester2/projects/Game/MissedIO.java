@@ -19,13 +19,18 @@ public class MissedIO {
 	
 	// Write a question to disk
 	public void write(String[] rowArray) {
+		String[][] prev = read();
 		PrintWriter out;
 		try {
 			out = new PrintWriter(missedFile);
-			String nextLine = rowArray.toString();	// looks like "["asdf", "asdf", "asdf"]"
-			nextLine = nextLine.substring(1, nextLine.length() - 1)	// Remove brackeks
-							   .replaceAll(",", "::::");	// Remove commas
-			out.println(nextLine);
+			
+			// Number of missed questions
+			out.println(prev.length+1);
+			// Write previous questions
+			for (String[] q: prev)
+				out.println(serializeArray(q));
+			
+			out.println(serializeArray(rowArray));
 			out.close();
 		} catch (IOException e) {
 			System.err.println("ERROR: Cannot open file data/missed.txt for writing.");
@@ -33,12 +38,22 @@ public class MissedIO {
 		}
 	}
 	
+	public String serializeArray(String[] arr) {
+		//String line = java.util.Arrays.toString(arr);	// looks like "["asdf", "asdf"]"
+		//line = line.substring(1, line.length() - 1)	// Remove brackets
+					//.replaceFirst(",", "::::");	// Remove first comma
+		String line = arr[0]+"::::"+arr[1];
+		line = line.replaceFirst(":::: ", "::::");
+		System.out.println(line);
+		return line;
+	}
+	
 	// Read and return the questions from missed.csv
 	public String[][] read() {
 		try {
 			Scanner in = new Scanner(missedFile);
-			int numQuestions = in.nextInt();
-			String[][] questions = new String[numQuestions][3];
+			int numQuestions = Integer.decode(in.nextLine());
+			String[][] questions = new String[numQuestions][2];
 			for (int q = 0; q < numQuestions; q++)
 				questions[q] = in.nextLine().split("::::");
 			return questions;

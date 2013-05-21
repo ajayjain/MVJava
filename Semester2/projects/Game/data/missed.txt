@@ -1,2 +1,2 @@
-0
-1 Bq::::1 decay per second::::physics
+1
+SlimeRun::::A Java-based educational reflex game

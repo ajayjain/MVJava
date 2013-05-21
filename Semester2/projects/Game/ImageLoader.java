@@ -33,7 +33,7 @@ public class ImageLoader extends Thread {
 		darkGrassDirtBlock = loadBlock("darkGrassDirtBlock");
 		stonePathBlock = loadBlock("stonePathBlock");
 		
-		starBackground = loadBackground("stars");
+		starBackground = load("images/back/stars.jpg");
 		swampBackground = loadBackground("swamp");
 		desertBackground = loadBackground("desert");
 	}
@@ -56,6 +56,6 @@ public class ImageLoader extends Thread {
 	}
 
 	public Image loadBackground(String back) {
-		return load("images/back/"+back+".png");
+		return load("images/back/"+back+".jpg");
 	}
 }

@@ -15,6 +15,9 @@ public class StartScreen extends JPanel {
 	private String[] subjectNames = {"Electricity and Magnetism", "Simple Machines", "Anatomy", "SAT Vocabulary", "Spanish"};	// Available subjects
 	public JRadioButton[] subjects;	// JRadioButtons within subjectChooser
 	
+	private MissedIO missedIO = new MissedIO();
+	private String[][] missed = missedIO.read();
+	
 	private JButton start;	// Start button to launch game
 	
 	public StartScreen() {
@@ -30,7 +33,7 @@ public class StartScreen extends JPanel {
 		center.setBackground(new Color(105, 204, 255, 150));
 		center.setLayout(new GridLayout(1, 2));
 		// Left side
-		center.add(new JLabel("Flash cards go here"));
+		center.add(new FlashCardPanel());
 		// Right side
 		createSubjectChooser();
 		center.add(subjectChooser);
@@ -47,7 +50,7 @@ public class StartScreen extends JPanel {
 		subjectChooser.setBackground(new Color(105, 204, 255, 150));
 		//subjectChooser.setLayout(new GridLayout(2, 1));
 		// Add label
-		//subjectChooser.add(new JLabel("Select subject(s):"));
+		subjectChooser.add(new JLabel("Select a subject:"), BorderLayout.NORTH);
 		
 		JPanel radioPanel = new JPanel();
 		radioPanel.setLayout(null);
@@ -73,10 +76,75 @@ public class StartScreen extends JPanel {
 			}
 		});*/
 	}
-}
 
-class FlashCardPanel extends JPanel {
-	public FlashCardPanel() {
+	public void loadMissed() {
+		missed = missedIO.read();
+	}
+	
+
+	class FlashCardPanel extends JPanel {
+		private JSplitPane question;
+		private JTextArea qArea, aArea;
+		private int currq = 0;	// Current question
+		private JPanel south;
+		private JButton next, prev;
 		
+		public FlashCardPanel() {
+			super();
+			setLayout(new BorderLayout());
+			setBackground(new Color(105, 204, 255, 150));
+			add(new JLabel("Previously missed:"), BorderLayout.NORTH);
+			
+			createSplitPane();
+			add(question);
+			
+			south = new JPanel();
+			south.setLayout(new GridLayout(1,2));
+			
+			// Create buttons for going forward and back
+			prev = new JButton("Previous");
+			prev.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					currq--;
+					if (currq < 0) currq = missed.length-1;
+					qArea.setText(missed[currq][0]);
+					aArea.setText(missed[currq][1]);
+				}
+			});
+			south.add(prev);
+			
+			next = new JButton("Next");
+			next.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					currq = (currq+1) % missed.length;
+					qArea.setText(missed[currq][0]);
+					aArea.setText(missed[currq][1]);
+				}
+			});
+			south.add(next);
+			
+			add(south, BorderLayout.SOUTH);
+		}
+		
+		private void createSplitPane() {
+			// Question boxe
+			qArea = new JTextArea(missed[currq][0]);
+			qArea.setEditable(false);
+			qArea.setLineWrap(true);
+			qArea.setForeground(Color.blue);
+			
+			// Answer box
+			aArea = new JTextArea(missed[currq][1]);
+			aArea.setEditable(false);
+			aArea.setLineWrap(true);
+			aArea.setForeground(Color.blue);
+			question = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, qArea, aArea);
+		}
+		
+		/*class FlashCards extends JPanel {
+			public FlashCards() {
+				super();
+			}
+		}*/
 	}
 }
