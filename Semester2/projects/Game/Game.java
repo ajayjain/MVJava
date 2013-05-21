@@ -309,15 +309,14 @@ class SlimeRun {
 				// System.out.println(choices.length);
 				// System.out.println(question.length);
 				// System.out.println(subject.length);
-				choices[correctChoiceIndex] =
-					new JButton(question[1]);
+				choices[correctChoiceIndex] = new JButton("<html><p>"+question[1]+"</p></html>");
 				choices[correctChoiceIndex].addActionListener(cl);	// Add listener that is called on selection of the correct choice
 				for (int i = 0; i < 4; i++) {
 					if (i == correctChoiceIndex) continue;	// Skip the correct choice (already placed)
 					int randQuestionIndex = rand.nextInt(subject.length);	// Choose a random index
 					do {
 						String choice = subject[randQuestionIndex][1];	// Text of answer choice from the data set
-						choices[i] = new JButton(choice);
+						choices[i] = new JButton("<html><p>"+choice+"</p></html>");
 						choices[i].addActionListener(il);	// Incorrect answer
 					} while (randQuestionIndex == correctQuestionIndex); // Don't place the correct choice twice
 				}
