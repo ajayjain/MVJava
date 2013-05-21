@@ -123,6 +123,10 @@ class SlimeRun {
 			private Image background;
 			private int w, h;
 			private boolean paused = false;
+
+			// The last question asked. Used in question saving and incorrect question display.
+			private String[] lastQuestion;
+
 			Slime player;	// The player
 			Timer timer;	// 4 milisecond game loop
 			
@@ -298,7 +302,7 @@ class SlimeRun {
 			private void assembleQuestionFrame(String[][] subject, ActionListener il, ActionListener cl) {
 				Random rand = new Random();
 				int correctQuestionIndex = rand.nextInt(subject.length);
-				String[] question = subject[correctQuestionIndex];
+				String[] question = lastQuestion = subject[correctQuestionIndex];
 				// System.out.println(randIndex+" of "+subject.length);
 				// System.out.println("subject[randIndex] length "+subject[randIndex].length);
 				// System.out.println(java.util.Arrays.toString(question));
@@ -330,7 +334,7 @@ class SlimeRun {
 				private JFrame inframe;
 				private JSplitPane question;
 				private JTextArea qArea, aArea; // text areas for the question and answer
-				private JButton save;
+				private JButton quit, resume;
 				private JLabel incorr;
 				
 				public IncorrectListener() {
@@ -340,35 +344,56 @@ class SlimeRun {
 					inframe.setLocation(200, 480);
 					
 					// Top Label
-					incorr = new JLabel("INCORRECT - Physics");
+					incorr = new JLabel("INCORRECT");
 					incorr.setForeground(Color.red);
 					inframe.getContentPane().add(incorr, BorderLayout.NORTH);
 					
-					// Question and answer boxes
-					qArea = new JTextArea("question");
+					// Question boxes
+					qArea = new JTextArea();
 					qArea.setEditable(false);
+					qArea.setLineWrap(true);
 					qArea.setForeground(Color.blue);
-					aArea = new JTextArea("answer");
+					
+					// Answer box
+					aArea = new JTextArea();
 					aArea.setEditable(false);
+					aArea.setLineWrap(true);
 					aArea.setForeground(Color.blue);
 					
 					// Add to split pane and frame
 					question = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, qArea, aArea);
 					inframe.getContentPane().add(question, BorderLayout.CENTER);
 					
-					// Save button at the bottom
-					save = new JButton("Quit & Save");
-					save.addActionListener(new ActionListener() {
+					// Quit button
+					quit = new JButton("Quit");
+					quit.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							inframe.setVisible(false);
 							quitListener.actionPerformed(e);
 						}
 					});
-					inframe.getContentPane().add(save, BorderLayout.SOUTH);
+
+					// Resume button
+					resume = new JButton("Continue");
+					resume.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							inframe.setVisible(false);
+							new CorrectListener().actionPerformed(e);
+						}
+					});
+
+					// Panel containing buttons
+					JPanel buttonPanel = new JPanel();
+					buttonPanel.setLayout(new GridLayout(1, 2));
+					buttonPanel.add(resume);
+					buttonPanel.add(quit);
+					inframe.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 				}
 				
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("INCORRECT");
+					qArea.setText(lastQuestion[0]);
+					aArea.setText(lastQuestion[1]);
 					inframe.setVisible(true);
 				}
 			}
