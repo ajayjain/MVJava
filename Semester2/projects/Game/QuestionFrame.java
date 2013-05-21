@@ -21,7 +21,7 @@ public class QuestionFrame extends JFrame {
 	}
 	
 	public void askQuestion(String[] question, JButton[] choices) {
-		System.out.println(question[0]+" -> "+question[1]);
+		// System.out.println(question[0]+" -> "+question[1]);
 		questionText.setText(question[0]);
 		getContentPane().add(questionText, BorderLayout.NORTH);
 		
