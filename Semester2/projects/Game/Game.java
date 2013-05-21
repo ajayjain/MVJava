@@ -154,7 +154,8 @@ class SlimeRun {
 				super.paintComponent(g);
 
 				// Draw background
-				// g.drawImage(background, 0, 0, 64*16, 64*4, null);
+				g.drawImage(background, 0, 0, 64*16, 64*4, null);
+				// g.drawImage(background, 0, 0, null);
 				// Draw slime character
 				player.drawSlime(g, this);
 				// Draw map
@@ -162,7 +163,7 @@ class SlimeRun {
 				
 				if (paused) {
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 40));
-					g.setColor(Color.blue);
+					g.setColor(Color.red);
 					g.drawString("PAUSED", 40, 60);
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
 					g.drawString("Press [P] or [ESC]", 55, 80);
