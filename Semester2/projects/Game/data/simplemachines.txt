@@ -1,0 +1,25 @@
+Effort Distance::::The distance over which the effort force acts in a simple machine
+Effort Arm::::The distance from the pivot point (fulcrum) to the point at which the effort force is applied on the arm of a lever.
+Effort Force::::The force exerted by a person (or a motor) when using a machine to lift a load.
+Electric Motor::::A device that transforms electrical energy into mechanical energy.
+Energy::::The ability to do work. Energy exists in many forms, such as chemical, mechanical, electrical, thermal, nuclear, kinetic, and light.
+Fulcrum::::The pivot or fixed point around which a lever rotates.
+Horsepower::::Unit of power in the English system that is equal to approximately 750 watts.
+Inclined Plane::::A sloping surface such as a ramp or board that reduces the amount of force required to do work by increasing the effort distance.
+Joule (J)::::SI unit for work and energy.
+Lever::::A simple machine that consists of a bar that pivots at a fixed point called a fulcrum.
+Load Arm::::The distance from the pivot point (fulcrum) to the point where the load is attached to the arm of a lever.
+Machine::::A device that can do work and, because of its mechanical advantage, can reduce the size of the effort force needed to do the work.
+Load Distance::::The distance a load moves when acted on by a load force.
+Load Force::::The force a machine exerts to lift a load. When lifting an object straight up, the load force is equal to the weight of the object.
+Output Work::::The work done on a load by a machine or motor. Output work is the product of load force and load distance.
+Input Work::::The work done by the effort force in a simple machine or motor. It is calculated by multiplying effort force by effort distance.
+Power::::The rate of doing work or the rate of changing energy. Power = Work / Time
+Watt::::The SI unit of power. One Watt is equal to 1 joule per second.
+Work::::The product of a force and the distance through which it acts.
+Six Simple Machines::::Inclined Plane, Wedge, Screw, Lever, Wheel and Axle, and Pulley
+Pulley::::A simple machine that consists of a rope that fits into a groove in a wheel.
+Screw::::A simple machine that consists of an inclined plane wrapped around a cylinder.
+Wedge::::A simple machine that is an inclined plane with one or two sloping sides.
+Wheel and Axle::::A simple machine that consists of a shaft or axle attached to the center of a larger wheel, so that the shaft and the wheel rotate together.
+Simple Machine::::A device that reduces the amount of force needed to perform a task or changes the direction of a force.

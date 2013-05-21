@@ -8,8 +8,8 @@ public class QuestionFrame extends JFrame {
 	public QuestionFrame() {
 		super();
 		setTitle("Quiz Question");
-		setSize(500, 300);
-		setLocation(600, 400);
+		setSize(500, 500);
+		setLocation(600, 300);
 		
 		// Create JPanel containing answer choice buttons
 		choicePanel = new JPanel();

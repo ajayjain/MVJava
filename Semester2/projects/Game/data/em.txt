@@ -1,0 +1,54 @@
+ac::::an electron flow that switches back & forth
+ampere::::the rate of electron flow similar to measuring the amount, force, or power of a current
+attract::::to "pull" an object
+battery::::a combination of two or more electrochemical cells
+charge::::a buildup of electrons or the process of building up electrons
+circuit::::an unbroken path along which electrons flow
+compass::::a device with a magnetized needle that can spin freely
+conductor::::material with loosely bound electrons through which current can flow
+current::::the flow of electrons through a conductor
+dc::::an electron flow that goes in one direction
+electrochemical cell::::a device that transforms chemical energy into electrical energy
+electrode::::a metal part of an electrochemical cell that gains or loses electrons
+electrolyte::::a liquid or paste that conducts electricity
+electromagnet::::a solenoid with a ferromagnetic core
+field lines::::rows of force around a magnet
+ground::::the side of a circuit that connects to the earth
+insulator::::material with tightly bound electrons, which resist the flow of electrons
+ohm::::the unit describing the resistance a material has to conducting a current
+magnet::::an object the attracts iron, nickel, and cobalt
+parallel::::a circuit with multiple paths
+pole::::the end of a magnet
+repel::::to "push" an object
+resistance::::the degree to which a material opposes (restricts) the flow of electrons
+series::::a circuit with a single path
+short circuit::::a connection that allows current to take an unintended path
+static::::not moving
+solenoid::::a wire coil with flowing current
+terminal::::an attachment point on an electrochemical cell or battery
+transformer::::a device for increasing or decreasing voltage
+voltage::::the amount of force pushing electrons in a current
+electricity::::The movement and transfer of the energy of charged particles.
+static electricity::::The buildup of a positive or negative electric charge on a materials surface.
+induced charge::::the static charge in a neutral object that is caused when an already charged object is placed near it
+current electricity::::Flow of an electric charge through a circuit.
+resistor::::Lowers the amount of electric charge that flows through a device. Electricity has difficulty flowing through it.
+series circuit::::Has one path for a current to flow.
+parallel circuit::::Has multiple paths for a current to flow.
+magnetic field::::An invisible area where the forces of magnetic attraction or repulsion can be detected.
+electromagnet::::A device that is magnetized by current electricity. It is strongest at the poles.
+generator::::A device that turns mechanical energy into electricity.
+conductor::::Materials that allow electrons to move through them easily. example: metals
+insulator::::A material in which electrons do not move easily from place to place.  example: rubber
+grounding::::using a conductor to direct an electric charge into the ground
+direct current::::Current in which electrons always flow in the same direction.
+alternating current::::Electric current that changes its direction repeatedly.
+fuse::::A safety device that melts when current is too high, breaking a circuit.
+transformers::::A device which increases or decreases voltage.
+volt::::unit for measuring voltage
+attract::::This occurs when electrons are pulled together. (unlike poles)
+repel::::This describes what occurs when electrons are pushed AWAY from each other. (like poles)
+pole::::A place on a magnet where magnetism is strongest.
+switch::::Controls the flow of charge in a circuit.
+magnetosphere::::The area surrounding Earth that is influenced by Earth's magnetic field.
+aurora::::Light display that occurs when charged particles trapped in the magnetosphere collide with Earth's atmosphere above the poles.

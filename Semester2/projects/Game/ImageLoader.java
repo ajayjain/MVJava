@@ -10,6 +10,7 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 
 public class ImageLoader extends Thread {
+	// Blocks and objects
 	public Image
 		rock,
 		spikes,
@@ -18,8 +19,9 @@ public class ImageLoader extends Thread {
 		grassDirtBlock,
 		darkGrassDirtBlock,
 		stonePathBlock;
-		// caveBlock,
-		// skyBlock;
+
+	// Backgrounds
+	public Image swampBackground, desertBackground, starBackground;
 	
 	public void run() {
 		rock = loadBlock("rock");
@@ -29,8 +31,10 @@ public class ImageLoader extends Thread {
 		grassDirtBlock = loadBlock("grassDirtBlock");
 		darkGrassDirtBlock = loadBlock("darkGrassDirtBlock");
 		stonePathBlock = loadBlock("stonePathBlock");
-		// caveBlock = loadBlock("caveBlock");
-		// skyBlock = loadBlock("skyBlock");
+		
+		starBackground = loadBackground("stars");
+		swampBackground = loadBackground("swamp");
+		desertBackground = loadBackground("desert");
 	}
 	
 	public Image load(String fileName) {
@@ -47,5 +51,9 @@ public class ImageLoader extends Thread {
 
 	public Image loadBlock(String block) {
 		return load("images/blocks/"+block+".png");
+	}
+
+	public Image loadBackground(String back) {
+		return load("images/back/"+back+".png");
 	}
 }
