@@ -296,28 +296,30 @@ class SlimeRun {
 			
 			private void assembleQuestionFrame(String[][] subject, ActionListener il, ActionListener cl) {
 				Random rand = new Random();
-				int randIndex = rand.nextInt(subject.length);
-				String[] question = subject[randIndex];
-				System.out.println(randIndex+" of "+subject.length);
-				System.out.println("subject[randIndex] length "+subject[randIndex);
-				System.out.println(java.util.Arrays.toString(question));
+				int correctQuestionIndex = rand.nextInt(subject.length);
+				String[] question = subject[correctQuestionIndex];
+				// System.out.println(randIndex+" of "+subject.length);
+				// System.out.println("subject[randIndex] length "+subject[randIndex].length);
+				// System.out.println(java.util.Arrays.toString(question));
 				
 				// Init JButton array for each choice
 				JButton[] choices = new JButton[4];
 				// Randomly place the button for the correct choice in the choices array
-				int correctIndex = rand.nextInt(4);
-				System.out.println(choices.length);
-				System.out.println(question.length);
-				System.out.println(subject.length);
-				choices[correctIndex] =
+				int correctChoiceIndex = rand.nextInt(4);
+				// System.out.println(choices.length);
+				// System.out.println(question.length);
+				// System.out.println(subject.length);
+				choices[correctChoiceIndex] =
 					new JButton(question[1]);
-				choices[correctIndex].addActionListener(cl);	// Add listener that is called on selection of the correct choice
+				choices[correctChoiceIndex].addActionListener(cl);	// Add listener that is called on selection of the correct choice
 				for (int i = 0; i < 4; i++) {
-					if (i == correctIndex) continue;	// Skip the correct choice (already placed)
-					randIndex = rand.nextInt(subject.length);	// Choose a random index
-					String choice = subject[randIndex][0];	// Text of answer choice from the data set
-					choices[i] = new JButton(choice);
-					choices[i].addActionListener(il);	// Incorrect answer
+					if (i == correctChoiceIndex) continue;	// Skip the correct choice (already placed)
+					int randQuestionIndex = rand.nextInt(subject.length);	// Choose a random index
+					do {
+						String choice = subject[randQuestionIndex][1];	// Text of answer choice from the data set
+						choices[i] = new JButton(choice);
+						choices[i].addActionListener(il);	// Incorrect answer
+					} while (randQuestionIndex == correctQuestionIndex); // Don't place the correct choice twice
 				}
 				
 				qframe.askQuestion(question, choices);
