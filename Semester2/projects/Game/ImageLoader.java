@@ -5,6 +5,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.awt.Image;
 import javax.imageio.ImageIO;
@@ -32,7 +33,7 @@ public class ImageLoader extends Thread {
 		darkGrassDirtBlock = loadBlock("darkGrassDirtBlock");
 		stonePathBlock = loadBlock("stonePathBlock");
 		
-		starBackground = loadBackground("stars");
+		starBackground = load("images/back/stars.jpg");
 		swampBackground = loadBackground("swamp");
 		desertBackground = loadBackground("desert");
 	}
@@ -40,7 +41,8 @@ public class ImageLoader extends Thread {
 	public Image load(String fileName) {
 		Image im = null;
 		try {
-			im = ImageIO.read(new File(fileName));
+			InputStream is = getClass().getResourceAsStream(fileName);
+			im = ImageIO.read(is);
 			System.out.println("Loaded "+fileName);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,6 +56,6 @@ public class ImageLoader extends Thread {
 	}
 
 	public Image loadBackground(String back) {
-		return load("images/back/"+back+".png");
+		return load("images/back/"+back+".jpg");
 	}
 }

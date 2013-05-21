@@ -11,7 +11,6 @@ import java.awt.image.ImageObserver;
 public class Slime extends GameObject {
 	public String[] frameNames;	// File paths of frames
 	public Image imageRun;
-	public Image imageDuck;
 	private boolean jumping, ducking;
 	
 	public Slime() {
@@ -87,7 +86,8 @@ public class Slime extends GameObject {
 	
 	public void loadFrames() {
 		try {
-			imageRun = ImageIO.read(new File("images/green/slime.png"));
+			InputStream is = getClass().getResourceAsStream("images/green/slime.png");
+			imageRun = ImageIO.read(is);
 			System.out.println("Loaded ./images/green/slime.png");
 		} catch (IOException e) {
 			e.printStackTrace();

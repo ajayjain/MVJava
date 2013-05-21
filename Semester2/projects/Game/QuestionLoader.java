@@ -28,14 +28,10 @@ public class QuestionLoader extends Thread {
 	}
 	
 	private void load(String fileName, String[][] questions) {
-		try {
-			Scanner s = new Scanner(new File(fileName));
-			for (int q = 0; q < questions.length; q++)
-				if (s.hasNext())
-					questions[q] = s.nextLine().split("::::");
-			System.out.println("Loaded "+fileName);
-		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: File not found - "+fileName);
-		}
+		Scanner s = new Scanner(getClass().getResourceAsStream(fileName));
+		for (int q = 0; q < questions.length; q++)
+			if (s.hasNext())
+				questions[q] = s.nextLine().split("::::");
+		System.out.println("Loaded "+fileName);
 	}
 }

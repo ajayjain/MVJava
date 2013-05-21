@@ -75,7 +75,11 @@ class SlimeRun {
 				gamePanel.setVisible(false);
 				if (qframe != null)
 					qframe.setVisible(false);
+					
+				// Update & show start screen
+				startPanel.loadMissed();
 				startPanel.setVisible(true);
+				
 				// Stop and destroy the game
 				main.timer.stop();
 				main.player = null;
@@ -194,6 +198,7 @@ class SlimeRun {
 
 			// Choose random background  image
 			private void randomBack() {
+				// Restore this after images have been optimized
 				switch (new Random().nextInt(3)) {
 					case 0:
 						background = images.swampBackground;
@@ -205,6 +210,7 @@ class SlimeRun {
 						background = images.starBackground;
 						break;
 				}
+				//background = images.starBackground;
 			}
 			
 			// Draws blocks
@@ -395,6 +401,7 @@ class SlimeRun {
 					qArea.setText(lastQuestion[0]);
 					aArea.setText(lastQuestion[1]);
 					inframe.setVisible(true);
+					new MissedIO().write(lastQuestion);
 				}
 			}
 			
