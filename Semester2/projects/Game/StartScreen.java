@@ -14,11 +14,14 @@ public class StartScreen extends JPanel {
 	private JPanel subjectChooser;	// Panel containing subject options
 	private String[] subjectNames = {"Electricity and Magnetism", "Simple Machines", "Anatomy", "SAT Vocabulary", "Spanish"};	// Available subjects
 	public JRadioButton[] subjects;	// JRadioButtons within subjectChooser
+	private JSlider difficulty;
 	
 	private MissedIO missedIO = new MissedIO();
 	private String[][] missed = missedIO.read();
 	
 	private JButton start;	// Start button to launch game
+	
+	private Color blueColor = new Color(105, 204, 255);
 	
 	public StartScreen() {
 		super();
@@ -30,7 +33,7 @@ public class StartScreen extends JPanel {
 		add(north, BorderLayout.NORTH);
 		
 		center = new JPanel();
-		center.setBackground(new Color(105, 204, 255, 150));
+		center.setBackground(blueColor);
 		center.setLayout(new GridLayout(1, 2));
 		// Left side
 		center.add(new FlashCardPanel());
@@ -39,8 +42,25 @@ public class StartScreen extends JPanel {
 		center.add(subjectChooser);
 		add(center, BorderLayout.CENTER);
 		
+		// Panel for difficulty slider and start button
+		JPanel south = new JPanel();
+		south.setLayout(new GridLayout(2, 1));
+		
+		// Panel for difficulty slider
+		JPanel diffPanel = new JPanel();
+		diffPanel.setBackground(blueColor);
+		diffPanel.add(new JLabel("Difficulty:"));
+		// Create slider
+		difficulty = new JSlider(1, 4, 2);
+		difficulty.setBackground(blueColor);
+		difficulty.setToolTipText("Difficulty");
+		diffPanel.add(difficulty);
+		south.add(diffPanel);
+		
 		start = new JButton("START");
-		subjectChooser.add(start, BorderLayout.SOUTH);
+		south.add(start);
+		
+		subjectChooser.add(south, BorderLayout.SOUTH);
 	}
 	
 	private void createSubjectChooser() {
@@ -61,6 +81,7 @@ public class StartScreen extends JPanel {
 		for (byte i = 0; i < subjectNames.length; i++) {
 			subjects[i] = new JRadioButton(subjectNames[i]);
 			subjects[i].setBounds(10, 20*i+50, 32*14+10, 20);
+			subjects[i].setBackground(Color.orange);
 			subjectGroup.add(subjects[i]);	// add to group
 			radioPanel.add(subjects[i]);	// add to panel
 		}
@@ -70,17 +91,15 @@ public class StartScreen extends JPanel {
 	
 	public void addStartListener(ActionListener listener) {
 		start.addActionListener(listener);
-		/*new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listener.actionPerformed(e);
-			}
-		});*/
 	}
 
 	public void loadMissed() {
 		missed = missedIO.read();
 	}
 	
+	public double getDifficulty() {
+		return difficulty.getValue();
+	}
 
 	class FlashCardPanel extends JPanel {
 		private JSplitPane question;

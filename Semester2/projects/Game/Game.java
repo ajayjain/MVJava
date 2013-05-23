@@ -95,11 +95,6 @@ class SlimeRun {
 			main = new MainPanel();
 			add(main, BorderLayout.CENTER);
 		}
-
-		// public void paintComponent(Graphics g) {
-		// 	// Draw the background
-		// 	g.drawImage(background, 0, 30, 64*16, 64*4, null);
-		// }
 		
 		public void createTopBar() {
 			// Button to go to main screen
@@ -107,7 +102,7 @@ class SlimeRun {
 			quit.addActionListener(quitListener);
 			
 			// Game instructions
-			directions = new JLabel("    [W]/[SPACE]/[UP] to jump, [S]/[DOWN] to crouch, [ESC] to pause");
+			directions = new JLabel("   [W] or [UP] to jump, [S] or [DOWN] to crouch, [ESC] or [P] to pause or resume");
 			
 			// Add components to top panel
 			top = new JMenuBar();
@@ -141,13 +136,13 @@ class SlimeRun {
 				h = getHeight();
 				
 				player = new Slime();
+				// Set the difficulty based on the start panel JSlider
+				player.max_x = startPanel.getDifficulty();
 
 				// Set block for the ground
 				randomGround();
-
 				// Select a background
 				randomBack();
-				
 				// Generate a map, skipping the first 4 columns
 				generateMap(4);
 				
@@ -163,7 +158,6 @@ class SlimeRun {
 
 				// Draw background
 				g.drawImage(background, 0, 0, 64*16, 64*4, null);
-				// g.drawImage(background, 0, 0, null);
 				// Draw slime character
 				player.drawSlime(g, this);
 				// Draw map
@@ -174,7 +168,7 @@ class SlimeRun {
 					g.setColor(Color.red);
 					g.drawString("PAUSED", 40, 60);
 					g.setFont(new Font("Sans-Serif", Font.BOLD, 16));
-					g.drawString("Press [P] or [ESC]", 55, 80);
+					g.drawString("Press [P] or [ESC]", 50, 80);
 				}
 			}
 
@@ -505,7 +499,7 @@ class SlimeRun {
 					boolean isBump = map[playerColumn] == GameObject.BUMP ||
 											map[playerColumn] == GameObject.SPIKES;
 					if (isBump && player.y >= 64*2) {
-						if (overlapCycles > 5) {
+						if (overlapCycles > 2) {
 							askQuestion();
 							overlapCycles = 0;
 						} else
