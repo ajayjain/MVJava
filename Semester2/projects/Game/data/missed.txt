@@ -1,4 +1,2 @@
-3
+1
 SlimeRun::::A Java-based educational reflex game
-Scrotum::::Reproductive - A pouch that helps to hold and protect the testicles.
-Ductus Arteriosus::::Circulatory - The small passage in only a fetal heart between the pulmonary artery and the aorta. The blood of a fetus is already oxygenated so it does not have to complete the entire blood cycle to get to the lungs for oxygen. This passage allows for the blood to move from the pulmonary artery that was leading to the lungs, straight into the aorta to go around the body. After birth, the high intensity of blood pressure will shut this passage closed.

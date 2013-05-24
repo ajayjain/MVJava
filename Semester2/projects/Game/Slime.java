@@ -12,6 +12,9 @@ public class Slime extends GameObject {
 	public String[] frameNames;	// File paths of frames
 	public Image imageRun;
 	private boolean jumping, ducking;
+
+	// private int duck_max_x;	// Max x vel when ducked
+	private int stand_max_x;	// Max x vel when standing
 	
 	public Slime() {
 		init();
@@ -27,7 +30,7 @@ public class Slime extends GameObject {
 		x = 5;
 		y = 1;
 		w = h = 64;	// Block size of 16 px
-		max_x = 2;
+		max_x = stand_max_x = 2;
 		accel_x = .05;
 		
 		// Load images of the slime
@@ -35,6 +38,8 @@ public class Slime extends GameObject {
 	}
 	
 	public void move() {
+		// System.out.println("vel_x: "+vel_x);
+		// System.out.println("accel_x: "+accel_x);
 		super.move();
 		
 		// if the slime hit the ground
@@ -70,7 +75,7 @@ public class Slime extends GameObject {
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			max_x += 0.5;	// Restore speed
+			max_x = stand_max_x;	// Restore speed
 			h = w = 64;	// Adjust size
 			y -= 20;	// Adjust position
 		}

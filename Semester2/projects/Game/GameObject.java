@@ -24,6 +24,7 @@ public abstract class GameObject {
 	public double accel_x = 0;
 	public double vel_x = 0;	// Stationary at start
 	public double max_x = 0;	// Stationary FOREVER (by default)
+	public double min_x = 0;	// Don't let the object go backwards
 	
 	public Image[] frames;	// All frames
 	public int currFrame = 0;	// Index of next image to draw
@@ -40,6 +41,7 @@ public abstract class GameObject {
 		// Same tasks for for horizontal movement
 		vel_x += accel_x;
 		if (vel_x > max_x) vel_x = max_x;
+		if (vel_x < min_x) vel_x = min_x;
 		x += vel_x;
 	}
 }
