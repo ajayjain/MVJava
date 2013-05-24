@@ -66,7 +66,7 @@ public class Slime extends GameObject {
 	
 	public void duck() {
 		ducking = true;
-		max_x -= 0.5;	// Slow slime
+		max_x -= 0.3;	// Slow slime
 		h = 64-20;
 		w = 64+20;
 		y += 20;
