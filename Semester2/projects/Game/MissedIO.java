@@ -11,18 +11,20 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class MissedIO {
-	private File missedFile;
+	String origFileName = "data/missed.txt",
+		modFileName = ".slimerun_missed";
+	private File origMissedFile, modMissedFile;
 	
 	public MissedIO() {
-		missedFile = new File("data/missed.txt");
+		origMissedFile = new File(origFileName);
+		modMissedFile = new File(modFileName);
 	}
 	
 	// Write a question to disk
 	public void write(String[] rowArray) {
 		String[][] prev = read();
-		PrintWriter out;
 		try {
-			out = new PrintWriter(missedFile);
+			PrintWriter out = new PrintWriter(modMissedFile);
 			
 			// Number of missed questions
 			out.println(prev.length+1);
@@ -33,34 +35,37 @@ public class MissedIO {
 			out.println(serializeArray(rowArray));
 			out.close();
 		} catch (IOException e) {
-			System.err.println("ERROR: Cannot open file data/missed.txt for writing.");
+			System.err.println("ERROR: Cannot open file "+modFileName+" for writing.");
 			System.exit(1);
 		}
 	}
 	
+	// Turn String array into CSV deliminated by "::::"
 	public String serializeArray(String[] arr) {
 		//String line = java.util.Arrays.toString(arr);	// looks like "["asdf", "asdf"]"
 		//line = line.substring(1, line.length() - 1)	// Remove brackets
 					//.replaceFirst(",", "::::");	// Remove first comma
+
 		String line = arr[0]+"::::"+arr[1];
 		line = line.replaceFirst(":::: ", "::::");
 		System.out.println(line);
 		return line;
 	}
 	
-	// Read and return the questions from missed.csv
+	// Read and return the questions from the missed file
 	public String[][] read() {
-		try {
-			Scanner in = new Scanner(missedFile);
-			int numQuestions = Integer.decode(in.nextLine());
-			String[][] questions = new String[numQuestions][2];
-			for (int q = 0; q < numQuestions; q++)
-				questions[q] = in.nextLine().split("::::");
-			return questions;
-		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: Cannot open file data/missed.txt");
-			System.exit(1);
-		}
-		return new String[0][0];
+		Scanner in = new Scanner(getClass().getResourceAsStream(origFileName));
+		if (modMissedFile.exists())
+			try {
+				in = new Scanner(modMissedFile);
+			} catch (FileNotFoundException e) {
+				System.err.println("ERROR: FileNotFound - "+modFileName);
+			}
+
+		int numQuestions = Integer.decode(in.nextLine());
+		String[][] questions = new String[numQuestions][2];
+		for (int q = 0; q < numQuestions; q++)
+			questions[q] = in.nextLine().split("::::");
+		return questions;
 	}
 }
