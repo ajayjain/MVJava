@@ -14,7 +14,8 @@ public class Slime extends GameObject {
 	private boolean jumping, ducking;
 
 	// private int duck_max_x;	// Max x vel when ducked
-	private int stand_max_x;	// Max x vel when standing
+	private double stand_max_x;	// Max x vel when standing
+	private double duck_accel_x;
 	
 	public Slime() {
 		init();
@@ -32,6 +33,7 @@ public class Slime extends GameObject {
 		w = h = 64;	// Block size of 16 px
 		max_x = stand_max_x = 2;
 		accel_x = .05;
+		duck_accel_x = -0.015;
 		
 		// Load images of the slime
 		loadFrames();
@@ -44,8 +46,8 @@ public class Slime extends GameObject {
 		
 		// if the slime hit the ground
 		if (y >= 64*2) {
-			// begin sliding (only needed for the first time he falls
-			if (accel_x != .25) accel_x = .25;
+			// begin sliding (only needed for the first time he falls)
+			if (accel_x != .25 && accel_x != duck_accel_x) accel_x = .25;
 			
 			// allow player to jump, since vel_y = 0 stops the jump
 			if (jumping)
@@ -66,7 +68,7 @@ public class Slime extends GameObject {
 	
 	public void duck() {
 		ducking = true;
-		max_x -= 0.3;	// Slow slime
+		accel_x = duck_accel_x;	// Slow slime
 		h = 64-20;
 		w = 64+20;
 		y += 20;
@@ -75,7 +77,8 @@ public class Slime extends GameObject {
 	public void stand() {
 		if (ducking) {
 			ducking = false;
-			max_x = stand_max_x;	// Restore speed
+			accel_x = 0.25; // Restore speed
+			// max_x = stand_max_x;	
 			h = w = 64;	// Adjust size
 			y -= 20;	// Adjust position
 		}

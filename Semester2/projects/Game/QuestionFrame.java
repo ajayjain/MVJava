@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class QuestionFrame extends JFrame {
 	private JPanel choicePanel;
-	private JTextArea questionText;
+	private JLabel questionText;
 	
 	public QuestionFrame() {
 		super();
@@ -16,14 +16,16 @@ public class QuestionFrame extends JFrame {
 		choicePanel.setLayout(new GridLayout(4, 1));
 		
 		// Create text area for question
-		questionText = new JTextArea();
-		questionText.setEditable(false);
+		questionText = new JLabel();
+		questionText.setFont(new Font("Sans-serif", Font.PLAIN, 25));
+		JPanel topPanel = new JPanel();
+		topPanel.add(questionText);
+		getContentPane().add(topPanel, BorderLayout.NORTH);
+		//questionText.setEditable(false);
 	}
 	
 	public void askQuestion(String[] question, JButton[] choices) {
-		// System.out.println(question[0]+" -> "+question[1]);
 		questionText.setText(question[0]);
-		getContentPane().add(questionText, BorderLayout.NORTH);
 		
 		choicePanel.removeAll();
 		// Add buttons to panel for choices

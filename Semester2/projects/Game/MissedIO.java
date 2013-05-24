@@ -24,7 +24,7 @@ public class MissedIO {
 	public void write(String[] rowArray) {
 		String[][] prev = read();
 		try {
-			PrintWriter out = new PrintWriter(modMissedFile);
+			PrintWriter out = new PrintWriter(modMissedFile, "UTF8");
 			
 			// Number of missed questions
 			out.println(prev.length+1);
@@ -54,7 +54,7 @@ public class MissedIO {
 	
 	// Read and return the questions from the missed file
 	public String[][] read() {
-		Scanner in = new Scanner(getClass().getResourceAsStream(origFileName));
+		Scanner in = new Scanner(getClass().getResourceAsStream(origFileName), "UTF8");
 		if (modMissedFile.exists())
 			try {
 				in = new Scanner(modMissedFile);

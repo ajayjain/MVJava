@@ -28,7 +28,7 @@ public class QuestionLoader extends Thread {
 	}
 	
 	private void load(String fileName, String[][] questions) {
-		Scanner s = new Scanner(getClass().getResourceAsStream(fileName));
+		Scanner s = new Scanner(getClass().getResourceAsStream(fileName), "UTF8");
 		for (int q = 0; q < questions.length; q++)
 			if (s.hasNext())
 				questions[q] = s.nextLine().split("::::");

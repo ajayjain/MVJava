@@ -14,7 +14,11 @@ import java.util.Random;
 
 public class Game {
 	public static void main(String[] args) {
-		(new SlimeRun()).init();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				(new SlimeRun()).init();
+			}
+		});
 	}
 }
 
@@ -499,7 +503,7 @@ class SlimeRun {
 					boolean isBump = map[playerColumn] == GameObject.BUMP ||
 											map[playerColumn] == GameObject.SPIKES;
 					if (isBump && player.y >= 64*2) {
-						if (overlapCycles > 2) {
+						if (overlapCycles > 1) {
 							askQuestion();
 							overlapCycles = 0;
 						} else
