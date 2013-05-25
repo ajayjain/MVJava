@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import javax.sound.sampled.*;
+import java.net.URL;
+
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -29,6 +32,8 @@ class SlimeRun {
 	private ImageLoader images;
 	private QuestionLoader questions;
 	private QuestionFrame qframe;
+    
+    private Clip audio;
 	
 	// Set up frame, show start screen
 	public void init() {
@@ -53,12 +58,32 @@ class SlimeRun {
 			public void actionPerformed(ActionEvent e) {
 				startPanel.setVisible(false);
 				run();
+                // Play music
+                try {
+                    audio.stop();
+                    audio = AudioSystem.getClip();
+                    URL url = getClass().getClassLoader().getResource("audio/guitarStrum.wav");
+                    audio.open(AudioSystem.getAudioInputStream(url));
+                    audio.loop(Clip.LOOP_CONTINUOUSLY);
+                } catch (Exception exc) {
+                    exc.printStackTrace(System.out);
+                }
 			}
 		});
 		// Add start screen
 		frame.getContentPane().add(startPanel, BorderLayout.CENTER);
 		
 		frame.setVisible(true);
+        
+        // Play music
+        try {
+            audio = AudioSystem.getClip();
+            URL url = getClass().getClassLoader().getResource("audio/happy.wav");
+            audio.open(AudioSystem.getAudioInputStream(url));
+            audio.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
 	}
 	
 	// Launch actual game
@@ -425,11 +450,13 @@ class SlimeRun {
 				paused = true;
 				repaint();
 				timer.stop();
+                audio.stop();
 			}
 			
 			private void resumeGame() {
 				timer.start();
 				paused = false;
+                audio.start();
 			}
 
 			// Create and attach actions to be executed on key strokes.
@@ -481,20 +508,24 @@ class SlimeRun {
 				private int overlapCycles = 0;	// how long has the player been on top of an object?
 				
 				public void actionPerformed(ActionEvent e) {
-					main.repaint();
-					main.grabFocus();
-					
-					detectCollision();
-					
-					// Update map for next painting
-					player.move();
-					// If the player passed the edge of the screen
-					if (player.x >= 64*14) {
-						randomGround();	// Swap ground block
-						randomBack();	// Swap background image
-						generateMap(3);	// Regenerate the map
-						player.x = 0; // Move to start
-					}
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            main.repaint();
+                            main.grabFocus();
+                            
+                            detectCollision();
+                            
+                            // Update map for next painting
+                            player.move();
+                            // If the player passed the edge of the screen
+                            if (player.x >= 64*14) {
+                                randomGround();	// Swap ground block
+                                randomBack();	// Swap background image
+                                generateMap(3);	// Regenerate the map
+                                player.x = 0; // Move to start
+                            }
+                        }
+                    });
 				}
 				
 				// Collision detection for player

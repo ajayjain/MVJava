@@ -6,6 +6,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 public class StartScreen extends JPanel {
 	private JPanel north;	// Top panel with game title
@@ -22,15 +23,19 @@ public class StartScreen extends JPanel {
 	private JButton start;	// Start button to launch game
 	
 	private Color blueColor = new Color(105, 204, 255);
+    private Font boldFont = new Font("Arial", Font.BOLD, 14);
+    private Border paddingBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+    private Border blueBorder = BorderFactory.createLineBorder(blueColor, 3);
+    private Border headerBorder = BorderFactory.createCompoundBorder(blueBorder, paddingBorder);
 	
 	public StartScreen() {
 		super();
 		setLayout(new BorderLayout());
 		
-		north = new JPanel();
+		/*north = new JPanel();
 		north.setBackground(Color.green);
 		north.add(new JLabel("SLIME RUN"));
-		add(north, BorderLayout.NORTH);
+		add(north, BorderLayout.NORTH);*/
 		
 		center = new JPanel();
 		center.setBackground(blueColor);
@@ -68,12 +73,25 @@ public class StartScreen extends JPanel {
 		subjectChooser = new JPanel();
 		subjectChooser.setLayout(new BorderLayout());
 		//subjectChooser.setBackground(new Color(105, 204, 255, 150));
-		//subjectChooser.setLayout(new GridLayout(2, 1));
+        
 		// Add label
-		subjectChooser.add(new JLabel("Select a subject:"), BorderLayout.NORTH);
-		
+        JLabel rightHeader = new JLabel("Select a subject:", JLabel.CENTER);
+        rightHeader.setFont(boldFont);
+        rightHeader.setBorder(headerBorder);
+		subjectChooser.add(rightHeader, BorderLayout.NORTH);
+        
 		JPanel radioPanel = new JPanel();
-		radioPanel.setLayout(null);
+        
+        /*JLabel directions = new JLabel(
+            "<html><p><strong>Instructions:</strong>"+
+            "<table><tr><td>jump</td><td>duck</td><td>pause/resume</td></tr>"+
+            "<tr><td>[W] or [UP]</td><td>[S] or [DOWN]</td><td>[ESC] or [P]</td></tr>"+
+            "</table></p></html>");*/
+        JLabel directions = new JLabel("<html><p><strong>Instructions:</strong> W/UP - jump, S/DOWN - crouch, ESC/P - pause</p></html>", JLabel.CENTER);
+        directions.setBounds(0, 0, (64*15+10)/2-20, 60);
+        radioPanel.add(directions);
+		
+        radioPanel.setLayout(null);
 		radioPanel.setBackground(Color.orange);
 		ButtonGroup subjectGroup = new ButtonGroup();
 		// Initialize JRadioButtons
@@ -111,7 +129,10 @@ public class StartScreen extends JPanel {
 		public FlashCardPanel() {
 			super();
 			setLayout(new BorderLayout());
-			add(new JLabel("Previously missed:"), BorderLayout.NORTH);
+            JLabel leftHeader = new JLabel("Previously missed:", JLabel.CENTER);
+            leftHeader.setFont(boldFont);
+            leftHeader.setBorder(headerBorder);
+			add(leftHeader, BorderLayout.NORTH);
 			
 			createSplitPane();
 			add(question);
@@ -161,21 +182,19 @@ public class StartScreen extends JPanel {
 		}
 		
 		private void createSplitPane() {
-			Font qfont = new Font("Arial", Font.BOLD, 14);
-			
 			// Question boxes
 			qArea = new JTextArea(missed[currq][0]);
 			qArea.setEditable(false);
 			qArea.setLineWrap(true);
 			qArea.setForeground(Color.blue);
-			qArea.setFont(qfont);
+			qArea.setFont(boldFont);
 			
 			// Answer box
 			aArea = new JTextArea(missed[currq][1]);
 			aArea.setEditable(false);
 			aArea.setLineWrap(true);
 			aArea.setForeground(Color.blue);
-			aArea.setFont(qfont);
+			aArea.setFont(boldFont);
 			
 			question = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false, qArea, aArea);
 			//question.setBackground(new Color(105, 204, 255, 150));

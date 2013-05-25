@@ -1,9 +1,16 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 public class QuestionFrame extends JFrame {
 	private JPanel choicePanel;
 	private JLabel questionText;
+    
+    private Color blueColor = new Color(105, 204, 255);
+    
+    private Border paddingBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+    private Border blueBorder = BorderFactory.createLineBorder(blueColor, 3);
+    private Border headerBorder = BorderFactory.createCompoundBorder(blueBorder, paddingBorder);
 	
 	public QuestionFrame() {
 		super();
@@ -14,13 +21,13 @@ public class QuestionFrame extends JFrame {
 		// Create JPanel containing answer choice buttons
 		choicePanel = new JPanel();
 		choicePanel.setLayout(new GridLayout(4, 1));
+        choicePanel.setBackground(blueColor);
 		
 		// Create text area for question
-		questionText = new JLabel();
+		questionText = new JLabel("", JLabel.CENTER);
+        questionText.setBorder(headerBorder);
 		questionText.setFont(new Font("Sans-serif", Font.PLAIN, 25));
-		JPanel topPanel = new JPanel();
-		topPanel.add(questionText);
-		getContentPane().add(topPanel, BorderLayout.NORTH);
+		getContentPane().add(questionText, BorderLayout.NORTH);
 		//questionText.setEditable(false);
 	}
 	

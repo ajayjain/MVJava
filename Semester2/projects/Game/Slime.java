@@ -33,7 +33,7 @@ public class Slime extends GameObject {
 		w = h = 64;	// Block size of 16 px
 		max_x = stand_max_x = 2;
 		accel_x = .05;
-		duck_accel_x = -0.015;
+		duck_accel_x = -1*max_x/200;
 		
 		// Load images of the slime
 		loadFrames();
@@ -62,7 +62,7 @@ public class Slime extends GameObject {
 				y = 64*2;
 		}
 		
-		// if the slime hit the top
+		// bounce if the slime hit the top
 		if (y < 0) vel_y *= -1;
 	}
 	
