@@ -59,8 +59,10 @@ class SlimeRun {
 				startPanel.setVisible(false);
 				run();
                 // Play music
-                happyAudio.stop();
-                guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
+                if (happyAudio.isOpen())
+                	happyAudio.stop();
+                if (guitarAudio.isOpen())
+                	guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
 			}
 		});
 		// Add start screen
@@ -69,7 +71,7 @@ class SlimeRun {
 		frame.setVisible(true);
         
         // Load happy music
-        URL url = getClass().getClassLoader().getResource("audio/happy.wav");
+        URL url = getClass().getClassLoader().getResource("audio/happy.au");
         try {
             happyAudio = AudioSystem.getClip();
             happyAudio.open(AudioSystem.getAudioInputStream(url));
@@ -77,10 +79,11 @@ class SlimeRun {
             exc.printStackTrace(System.out);
         }
         // Play music
-        happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
+        if (happyAudio.isOpen())
+	        happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
         
         // Load guitar music
-        URL guitarUrl = getClass().getClassLoader().getResource("audio/guitarStrum.wav");
+        URL guitarUrl = getClass().getClassLoader().getResource("audio/guitarStrum.au");
         try {
             guitarAudio = AudioSystem.getClip();
             guitarAudio.open(AudioSystem.getAudioInputStream(guitarUrl));
@@ -307,7 +310,8 @@ class SlimeRun {
 
 			private void askQuestion() {
 				pauseGame();
-                happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
+				if (happyAudio.isOpen())
+                	happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
 				
 				if (qframe == null)
 					// Create JFrame for question and answers
@@ -403,7 +407,8 @@ class SlimeRun {
 						public void actionPerformed(ActionEvent e) {
 							inframe.setVisible(false);
 							quitListener.actionPerformed(e);
-                            happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
+							if (happyAudio.isOpen())
+                            	happyAudio.loop(Clip.LOOP_CONTINUOUSLY);
 						}
 					});
 
@@ -455,14 +460,17 @@ class SlimeRun {
 				paused = true;
 				repaint();
 				timer.stop();
-                guitarAudio.stop();
+				if (guitarAudio.isOpen())
+                	guitarAudio.stop();
 			}
 			
 			private void resumeGame() {
 				timer.start();
 				paused = false;
-                happyAudio.stop();
-                guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
+				if (happyAudio.isOpen())
+                	happyAudio.stop();
+                if (guitarAudio.isOpen())
+                	guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
 			}
 
 			// Create and attach actions to be executed on key strokes.
