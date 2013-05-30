@@ -309,6 +309,7 @@ class SlimeRun {
 			}
 
 			private void askQuestion() {
+				System.out.println("SlimeRun::askQuestion()");
 				pauseGame();
 				if (happyAudio.isOpen())
                 	happyAudio.loop(Clip.LOOP_CONTINUOUSLY);

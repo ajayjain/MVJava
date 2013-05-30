@@ -56,7 +56,10 @@ public class StartScreen extends JPanel {
 		diffPanel.setBackground(blueColor);
 		diffPanel.add(new JLabel("Difficulty:"));
 		// Create slider
-		difficulty = new JSlider(1, 4, 2);
+		difficulty = new JSlider(10, 40, 20);
+		difficulty.setSnapToTicks(false);
+		// difficulty.setMinorTickSpacing(1);
+		// System.out.println(difficulty.getSnapToTicks());
 		difficulty.setBackground(blueColor);
 		difficulty.setToolTipText("Difficulty");
 		diffPanel.add(difficulty);
@@ -116,7 +119,7 @@ public class StartScreen extends JPanel {
 	}
 	
 	public double getDifficulty() {
-		return difficulty.getValue();
+		return difficulty.getValue()/10.0;
 	}
 
 	class FlashCardPanel extends JPanel {

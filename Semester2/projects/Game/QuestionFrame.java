@@ -31,17 +31,22 @@ public class QuestionFrame extends JFrame {
 		//questionText.setEditable(false);
 	}
 	
-	public void askQuestion(String[] question, JButton[] choices) {
-		questionText.setText(question[0]);
+	public void askQuestion(final String[] question, final JButton[] choices) {
+		System.out.println("QuestionFrame::askQuestion(String[], JButton[])");
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {		
+			questionText.setText(question[0]);
 		
-		choicePanel.removeAll();
-		// Add buttons to panel for choices
-		choicePanel.add(choices[0]);
-		choicePanel.add(choices[1]);
-		choicePanel.add(choices[2]);
-		choicePanel.add(choices[3]);
+				choicePanel.removeAll();
+				// Add buttons to panel for choices
+				choicePanel.add(choices[0]);
+				choicePanel.add(choices[1]);
+				choicePanel.add(choices[2]);
+				choicePanel.add(choices[3]);
 		
-		// Add choice panel to frame
-		getContentPane().add(choicePanel, BorderLayout.CENTER);
+				// Add choice panel to frame
+				getContentPane().add(choicePanel, BorderLayout.CENTER);
+			}
+		});
 	}
 }
