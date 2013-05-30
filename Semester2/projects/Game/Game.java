@@ -47,10 +47,10 @@ class SlimeRun {
 		
 		frame = new JFrame("Slime Run");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(64*15+10, 64*5);
+		frame.setSize(64*15, 64*5-30);
 		frame.setLocation(100, 100);
 		frame.setResizable(false);
-		
+		 	
 		// Create start screen
 		startPanel = new StartScreen();
 		// Attach a listener that fires on start button press
@@ -157,6 +157,10 @@ class SlimeRun {
 			private Image background;
 			private int w, h;
 			private boolean paused = false;
+
+			// Create listeners for when question is answered
+			IncorrectListener il = new IncorrectListener();
+			CorrectListener cl = new CorrectListener();
 
 			// The last question asked. Used in question saving and incorrect question display.
 			private String[] lastQuestion;
@@ -318,10 +322,6 @@ class SlimeRun {
 					// Create JFrame for question and answers
 					qframe = new QuestionFrame();
 				
-				// Create listeners for when question is answered
-				IncorrectListener il = new IncorrectListener();
-				CorrectListener cl = new CorrectListener();
-				
 				// Default: Electricity and Magnetism
 				String[][] subject = questions.em;
 				
@@ -461,17 +461,29 @@ class SlimeRun {
 				paused = true;
 				repaint();
 				timer.stop();
-				if (guitarAudio.isOpen())
-                	guitarAudio.stop();
+				
+				Thread stopGuitar = new Thread() {
+					public void run() {
+						if (guitarAudio.isOpen())
+		                	guitarAudio.stop();
+		           	}
+				};
+				stopGuitar.start();
 			}
 			
 			private void resumeGame() {
 				timer.start();
 				paused = false;
-				if (happyAudio.isOpen())
-                	happyAudio.stop();
-                if (guitarAudio.isOpen())
-                	guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
+
+				Thread stopHappy = new Thread() {
+					public void run() {
+						if (happyAudio.isOpen())
+		                	happyAudio.stop();
+		                if (guitarAudio.isOpen())
+		                	guitarAudio.loop(Clip.LOOP_CONTINUOUSLY);
+		           	}
+				};
+				stopHappy.start();
 			}
 
 			// Create and attach actions to be executed on key strokes.
